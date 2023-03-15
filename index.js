@@ -8,7 +8,6 @@ const configRoutes = require('./backend/routes');
 // port info
 const PORT = process.env.PORT || 5000;
 // // database
-// const mysql = require('mysql');
 const pool = require('./backend/utils/database');
 // frontend and backend linking
 const cors = require('cors');
