@@ -13,7 +13,7 @@ function Nav(props) {
 
   return (
     <div className="nav">
-      <ul>
+      {drawer?<ul>
         {
           nav.map(x=>{
             return (<li key={x.page}>
@@ -21,12 +21,12 @@ function Nav(props) {
             </li>)
           })
         }
-      </ul>
+      </ul>:<ul/>}
       {/*eslint-disable-next-line*/}
       <button className="nava" onClick={() => {
                 toggle(!drawer)
             }}>
-      <img src={!drawer? "forward-arrow.svg" : "backward-arrow.svg"} className={drawer? "arrow1" : "arrow2"}></img>
+      <img alt={!drawer? "open nav" : "close nav"} src={!drawer? "forward-arrow.svg" : "backward-arrow.svg"} className={drawer? "arrow1" : "arrow2"}></img>
       </button>
     </div>
   );
