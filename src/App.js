@@ -1,25 +1,44 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
 
-function App() {
+const nav = [
+  {
+    page:0,
+    title:"Home"
+  }
+];
+
+function Nav(props) {
+  const [drawer, toggle] = useState(false);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="nav">
+      <ul>
+        {
+          nav.map(x=>{
+            return (<li key={x.page}>
+              <button className={"nava"} onClick={() => props.setPage(x.page)}>{x.title}</button>
+            </li>)
+          })
+        }
+      </ul>
+      {/*eslint-disable-next-line*/}
+      <button className="nava" onClick={() => {
+                toggle(!drawer)
+            }}>
+      <img src={!drawer? "forward-arrow.svg" : "backward-arrow.svg"} className={drawer? "arrow1" : "arrow2"}></img>
+      </button>
     </div>
   );
 }
 
-export default App;
+function WebPage(props) {
+  const [page, setPage] = useState(0);
+  return (
+    <div>
+      <Nav setPage={setPage}/>
+    </div>
+  );
+}
+
+export default WebPage;
