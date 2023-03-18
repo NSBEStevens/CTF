@@ -18,11 +18,16 @@ pool.connect((error) => {
     }
     console.log('Database Connection established successfully');
 
-    pool.query("DROP TABLE preTable", (err, drop) => {
+    pool.query("DROP TABLE problems", (err, drop) => {
         //Query to create table "preTable"
-        const create = "CREATE TABLE preTable(_key VARCHAR(32) NOT NULL PRIMARY KEY, flag VARCHAR(32) NOT NULL, desc VARCHAR(512) NOT NULL, points INTEGER  NOT NULL,path varchar(128) NOT NULL);"
-        // Creating table "preTable"
+        const create = "CREATE TABLE problems(_key VARCHAR(32) NOT NULL PRIMARY KEY, flag VARCHAR(32) NOT NULL, desc VARCHAR(512) NOT NULL, points INTEGER  NOT NULL,path varchar(128) NOT NULL);"
+        // Creating table "problems"
         pool.query(create, (err, drop) => {
+            if (err) console.error(error);
+        });
+        const teams = "CREATE TABLE teams(_key VARCHAR(64) NOT NULL PRIMARY KEY, leader varchar(128) NOT NULL, players text[] NOT NULL, points INTEGER  NOT NULL, solved text[]);"
+        // Creating table "teams"
+        pool.query(teams, (err, drop) => {
             if (err) console.error(error);
         });
     });
@@ -36,7 +41,7 @@ pool.connect((error) => {
             let Abstract = source[i]["points"];
             let Path = source[i]["path"];
 
-            let insertStatement =   `INSERT INTO preTable values ($1, $2, $3, $4, $5)`;
+            let insertStatement =   `INSERT INTO problems values ($1, $2, $3, $4, $5)`;
             let items = [_key, Authors, Title, Abstract, Path];
 
             pool.query(insertStatement, items, (err, results, fields) => {

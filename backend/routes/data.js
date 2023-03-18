@@ -18,8 +18,6 @@ const pool = new Client({
 pool.connect();
 const express = require('express');
 const router = express.Router();
-const data = require('../data');
-const proceedingData = data.proceedings;
 
 // routing and pulling from DBs
 

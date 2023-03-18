@@ -9,7 +9,7 @@ const nav = [
 ];
 
 function Nav(props) {
-  const [drawer, toggle] = useState(false);
+  const [drawer, toggle] = useState(true);
 
   return (
     <div className="nav">
