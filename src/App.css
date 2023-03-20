@@ -1,33 +1,24 @@
 
 ul, li {
-  display: block;
+  position: relative;
+  display:none;
   padding: 1vh 0;
   margin-right:3vw;
+}
+
+.nav:hover ul, li {
+  display: block;
+  animation: appear 2s;
+}
+
+@keyframes appear{
+  0%{opacity: 0;}
+  100%{opacity: 1;}
 }
 
 ul {
   position: relative;
   margin: 15vh 1vw;
-  display: table;
-}
-
-img.arrow2 {
-  position: absolute;
-  bottom: 12vh;
-  height: 5vh;
-  width: 3vw;
-  z-index: 1000;
-}
-
-img.arrow1 {
-  position: absolute;
-  padding: 0;
-  margin: 0;
-  left: 6vw;
-  bottom: 12vh;
-  height: 5vh;
-  width: 3vw;
-  z-index: 1000;
 }
 
 .nav {
@@ -41,9 +32,16 @@ img.arrow1 {
   border-color: #293542;
   border-style: solid;
   z-index: 999;
+  width:1vw;
+  transition: width .5s ease-out;
+}
+
+.nav:hover {
+  width: 8vw;
 }
 
 button.nava:link, button.nava:visited, button.nava {
+  position: relative;
   font-family: "'Impact', Charcoal, sans-serif";
   font-size: 2em;
   color: rgb(194, 194, 194);
