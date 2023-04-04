@@ -1,19 +1,21 @@
 import { useState } from 'react';
 import './App.css';
+import { Display } from './components/componentPicker'
+import { Home } from './components/components'
 
 const nav = [
   {
     page:0,
-    title:"Home"
+    title:"Home",
+    component: Home
   }
 ];
 
 function Nav(props) {
-  const [drawer, toggle] = useState(false);
 
   return (
     <div className="nav">
-      {drawer?<ul>
+      <ul>
         {
           nav.map(x=>{
             return (<li key={x.page}>
@@ -21,13 +23,7 @@ function Nav(props) {
             </li>)
           })
         }
-      </ul>:<ul/>}
-      {/*eslint-disable-next-line*/}
-      <button className="nava" onClick={() => {
-                toggle(!drawer)
-            }}>
-      <img alt={!drawer? "open nav" : "close nav"} src={!drawer? "forward-arrow.svg" : "backward-arrow.svg"} className={drawer? "arrow1" : "arrow2"}></img>
-      </button>
+      </ul>
     </div>
   );
 }
@@ -37,6 +33,7 @@ function WebPage(props) {
   return (
     <div>
       <Nav setPage={setPage}/>
+      <Display component={page} info={nav}/>
     </div>
   );
 }
