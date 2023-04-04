@@ -7,14 +7,13 @@ import axios from 'axios';
  * points: int
  * solved: string[]
  */
-function pullTeams() {
+async function pullTeams() {
         try {
                 const { data } = await axios.get(`http://localhost:5000/data/teams`, {'Access-Control-Allow-Origin':'*'});
-                setResults(data);
+                return data;
         } catch (e) {
-                console.log(e);
+                return console.error(e);
         }
-        return data;
 }
 
 
@@ -23,17 +22,16 @@ function pullTeams() {
  * @param {string[]} players
  * @return {boolean}
  */
-function makeTeam(teamName,players) {
+async function makeTeam(teamName,players) {
         try {
                 const { data } = await axios.post(`http://localhost:5000/data/teams`, {
                         teamName: teamName,
                         players:players
                 }, {'Access-Control-Allow-Origin':'*'});
-                setResults(data);
+                return data.teamFound;
         } catch (e) {
-                console.log(e);
+                return console.error(e);
         }
-        return data.teamFound;
 }
 
 
@@ -46,14 +44,13 @@ function makeTeam(teamName,players) {
  * points: int
  * path: string
  */
-function pullProblems() {
+async function pullProblems() {
         try {
                 const { data } = await axios.get(`http://localhost:5000/data/problems`, {'Access-Control-Allow-Origin':'*'});
-                setResults(data);
+                return data;
         } catch (e) {
-                console.log(e);
+                return console.error(e);
         }
-        return data;
 }
 
 /**
@@ -62,18 +59,17 @@ function pullProblems() {
  * @param {string} teamName
  * @return {boolean}
  */
-function solveProblem(problem,flag,teamName) {
+async function solveProblem(problem,flag,teamName) {
         try {
                 const { data } = await axios.put(`http://localhost:5000/data/solve`,{
                         problem: problem,
                         flag: flag,
                         teamName: teamName
                 }, {'Access-Control-Allow-Origin':'*'});
-                setResults(data);
+                return data.solved;
         } catch (e) {
-                console.log(e);
+                return console.error(e);
         }
-        return data.solved;
 }
 
 function Home(props) {

@@ -4,7 +4,7 @@
 function Display(props) {
         return (
                 <div className="components">
-                        {props.info[props.page].component}
+                        {props.info[props.component].component}
                 </div>
         );
 }
