@@ -15,6 +15,8 @@ function pullTeams() {
         }
         return data;
 }
+
+
 /**
  * @param {string} teamName 
  * @param {string[]} players
@@ -33,6 +35,16 @@ function makeTeam(teamName,players) {
         return data.teamFound;
 }
 
+
+/**
+ * @return {JSON Object Array}
+ * {_key, flag, desc, points, path}
+ * _key: string
+ * flag: string
+ * desc: string
+ * points: int
+ * path: string
+ */
 function pullProblems() {
         try {
                 const { data } = await axios.get(`http://localhost:5000/data/problems`, {'Access-Control-Allow-Origin':'*'});
