@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import './App.css';
+import { Display } from './components/componentPicker'
+import { Home } from './components/components'
 
 const nav = [
   {
     page:0,
-    title:"Home"
+    title:"Home",
+    component: Home
   }
 ];
 
@@ -30,6 +33,7 @@ function WebPage(props) {
   return (
     <div>
       <Nav setPage={setPage}/>
+      <Display component={page} info={nav}/>
     </div>
   );
 }
