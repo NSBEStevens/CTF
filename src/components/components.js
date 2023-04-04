@@ -55,6 +55,26 @@ function pullProblems() {
         return data;
 }
 
+/**
+ * @param {string} problem
+ * @param {string} flag
+ * @param {string} teamName
+ * @return {boolean}
+ */
+function solveProblem(problem,flag,teamName) {
+        try {
+                const { data } = await axios.put(`http://localhost:5000/data/solve`,{
+                        problem: problem,
+                        flag: flag,
+                        teamName: teamName
+                }, {'Access-Control-Allow-Origin':'*'});
+                setResults(data);
+        } catch (e) {
+                console.log(e);
+        }
+        return data.solved;
+}
+
 function Home(props) {
         return (
                 <>
