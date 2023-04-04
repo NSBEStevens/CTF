@@ -25,7 +25,7 @@ pool.connect((error) => {
         pool.query(create, (err, drop) => {
             if (err) console.error(error);
         });
-        const teams = "CREATE TABLE teams(_key VARCHAR(64) NOT NULL PRIMARY KEY, leader varchar(128) NOT NULL, players text[] NOT NULL, points INTEGER  NOT NULL, solved text[]);"
+        const teams = "CREATE TABLE teams(_key VARCHAR(64) NOT NULL PRIMARY KEY, players text[] NOT NULL, points INTEGER  NOT NULL, solved text[]);"
         // Creating table "teams"
         pool.query(teams, (err, drop) => {
             if (err) console.error(error);
