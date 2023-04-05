@@ -4,7 +4,7 @@
 function Display(props) {
         return (
                 <div className="components">
-                        {props.info[props.component].component}
+                        {props.info[props.component > 0? props.component: 0].component}
                 </div>
         );
 }

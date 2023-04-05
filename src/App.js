@@ -32,9 +32,8 @@ function WebPage(props) {
   },[page]);
 
   return (
-  return (page === -1?
-    <Auth/>:
     <div>
+      {page === -1? <Auth/>:<div/>}
       <Nav setPage={setPage} nav={nav}/>
       <Display component={page} info={nav}/>
     </div>

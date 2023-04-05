@@ -20,11 +20,15 @@ pool.connect((error) => {
 
     pool.query("DROP TABLE problems", (err, drop) => {
         //Query to create table "preTable"
-        const create = "CREATE TABLE problems(_key VARCHAR(32) NOT NULL PRIMARY KEY, flag VARCHAR(32) NOT NULL, desc VARCHAR(512) NOT NULL, points INTEGER  NOT NULL,path varchar(128) NOT NULL);"
+        const create = "CREATE TABLE problems(_key VARCHAR(32) NOT NULL PRIMARY KEY, ctfflag VARCHAR(32) NOT NULL, description VARCHAR(512) NOT NULL, points INTEGER  NOT NULL,path varchar(128) NOT NULL);"
         // Creating table "problems"
         pool.query(create, (err, drop) => {
             if (err) console.error(error);
         });
+    });
+
+    pool.query("DROP TABLE teams", (err, drop) => {
+        //Query to create table "preTable"
         const teams = "CREATE TABLE teams(_key VARCHAR(64) NOT NULL PRIMARY KEY, players text[] NOT NULL, points INTEGER  NOT NULL, solved text[]);"
         // Creating table "teams"
         pool.query(teams, (err, drop) => {
