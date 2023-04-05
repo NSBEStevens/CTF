@@ -17,23 +17,16 @@ pool.connect((error) => {
         return;
     }
     console.log('Database Connection established successfully');
-
-    pool.query("DROP TABLE problems", (err, drop) => {
-        //Query to create table "preTable"
-        const create = "CREATE TABLE problems(_key VARCHAR(32) NOT NULL PRIMARY KEY, ctfflag VARCHAR(32) NOT NULL, description VARCHAR(512) NOT NULL, points INTEGER  NOT NULL,path varchar(128) NOT NULL);"
-        // Creating table "problems"
-        pool.query(create, (err, drop) => {
-            if (err) console.error(error);
-        });
+    const create = "CREATE TABLE problems(_key VARCHAR(32) NOT NULL PRIMARY KEY, ctfflag VARCHAR(32) NOT NULL, description VARCHAR(512) NOT NULL, points INTEGER  NOT NULL,path varchar(128) NOT NULL) on conflict do nothing;"
+    // Creating table "problems"
+    pool.query(create, (err, drop) => {
+        if (err) console.error(error);
     });
-
-    pool.query("DROP TABLE teams", (err, drop) => {
-        //Query to create table "preTable"
-        const teams = "CREATE TABLE teams(_key VARCHAR(64) NOT NULL PRIMARY KEY, players text[] NOT NULL, points INTEGER  NOT NULL, solved text[]);"
-        // Creating table "teams"
-        pool.query(teams, (err, drop) => {
-            if (err) console.error(error);
-        });
+    
+    const teams = "CREATE TABLE teams(_key VARCHAR(64) NOT NULL PRIMARY KEY, players text[] NOT NULL, points INTEGER  NOT NULL, solved text[]) on conflict do nothing;"
+    // Creating table "teams"
+    pool.query(teams, (err, drop) => {
+        if (err) console.error(error);
     });
 
     csvtojson().fromFile(fileName).then((source) => {
@@ -45,7 +38,7 @@ pool.connect((error) => {
             let Abstract = source[i]["points"];
             let Path = source[i]["path"];
 
-            let insertStatement =   `INSERT INTO problems values ($1, $2, $3, $4, $5)`;
+            let insertStatement =   `INSERT INTO problems values ($1, $2, $3, $4, $5) on conflict do nothing`;
             let items = [_key, Authors, Title, Abstract, Path];
 
             pool.query(insertStatement, items, (err, results, fields) => {

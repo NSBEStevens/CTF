@@ -1,9 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
-import { Problems } from './components/components'
+import { Auth, Problems, Scoreboard, pullTeams } from './components/components'
 import { Display } from './components/componentPicker';
-import { Scoreboard } from './Scoreboard/scoreboard'
-import { Auth } from './components/components'
 
 function Nav(props) {
   return (
@@ -24,7 +22,7 @@ function Nav(props) {
 function WebPage(props) {
   const [page, setPage] = useState(-1);
   const nav = [
-    { page: 0, title: "Scoreboard", component: <Scoreboard/> },
+    { page: 0, title: "Scoreboard", component: <Scoreboard page={page}/> },
     { page: 1, title: "Problems", component: <Problems/> }
   ];
   useEffect(() => {
@@ -33,7 +31,7 @@ function WebPage(props) {
 
   return (
     <div>
-      {page === -1? <Auth/>:<div/>}
+      {page === -1? <Auth setPage={setPage}/>:<div/>}
       <Nav setPage={setPage} nav={nav}/>
       <Display component={page} info={nav}/>
     </div>

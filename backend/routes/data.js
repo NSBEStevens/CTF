@@ -2,8 +2,8 @@
  * Routes for all proceeding related actions
  */
 require('dotenv').config();
-const {Client} = require('pg')
-const pool = new Client({
+const {Pool} = require('pg')
+const pool = new Pool({
     /*connectionString: process.env.DATABASE_URL,
     ssl: {
       rejectUnauthorized: false,
@@ -66,11 +66,9 @@ router.post('/addTeam', async (req, res) => {
                 return res.status(400).json({teamFound:true});
         });
 
-        let createQuery = `insert into teams values('${req.params.teamName}', {${req.params.players.map(x=>{
-            return `'${x}'`;
-        }).reduce(x,y=>{
+        let createQuery = `insert into teams values('${req.params.teamName}', '{${req.params.players.reduce(x,y=>{
             return `${x},${y}`;
-        })}}, 0, {})`;
+        })}}', 0, '{}')`;
         // let query = mysql.format(selectQuery, ['problemsTable', 'Proceeding', proceedingId]);
         pool.query(createQuery, (err, data) => {
             if (err) {
