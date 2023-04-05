@@ -80,4 +80,32 @@ function Home(props) {
         );
 }
 
-export { Home }
+function Auth(props) {
+        const [team, setTeam] = useState("");
+        const [numPlayers, increment] = useState(1);
+        const [login, setLogin] = (false);
+
+        useEffect(()=>{
+
+        },[login]);
+
+        return (
+                <div className="auth">
+                        <div className="authform">
+                                {
+                                        login?
+                                        <form onSubmit={e=>{
+                                                e.preventDefault();
+                                        }}>
+
+                                        </form>:
+                                        <form>
+
+                                        </form>
+                                }
+                        </div>
+                </div>
+        );
+}
+
+export { Home, Auth }
