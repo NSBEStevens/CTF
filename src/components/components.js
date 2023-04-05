@@ -72,7 +72,7 @@ async function solveProblem(problem,flag,teamName) {
         }
 }
 
-function Home(props) {
+function Problems(props) {
         return (
                 <>
 
@@ -80,4 +80,4 @@ function Home(props) {
         );
 }
 
-export { Home }
+export { Problems, pullTeams }
