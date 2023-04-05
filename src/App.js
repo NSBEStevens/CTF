@@ -3,6 +3,7 @@ import './App.css';
 import { Problems } from './components/components'
 import { Display } from './components/componentPicker';
 import { Scoreboard } from './Scoreboard/scoreboard'
+import { Auth } from './components/components'
 
 function Nav(props) {
   return (
@@ -21,7 +22,7 @@ function Nav(props) {
 }
 
 function WebPage(props) {
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(-1);
   const nav = [
     { page: 0, title: "Scoreboard", component: <Scoreboard/> },
     { page: 1, title: "Problems", component: <Problems/> }
@@ -31,6 +32,8 @@ function WebPage(props) {
   },[page]);
 
   return (
+  return (page === -1?
+    <Auth/>:
     <div>
       <Nav setPage={setPage} nav={nav}/>
       <Display component={page} info={nav}/>

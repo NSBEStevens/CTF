@@ -80,4 +80,32 @@ function Problems(props) {
         );
 }
 
-export { Problems, pullTeams }
+function Auth(props) {
+        const [team, setTeam] = useState("");
+        const [numPlayers, increment] = useState(1);
+        const [login, setLogin] = (false);
+
+        useEffect(()=>{
+
+        },[login]);
+
+        return (
+                <div className="auth">
+                        <div className="authform">
+                                {
+                                        login?
+                                        <form onSubmit={e=>{
+                                                e.preventDefault();
+                                        }}>
+
+                                        </form>:
+                                        <form>
+
+                                        </form>
+                                }
+                        </div>
+                </div>
+        );
+}
+
+export { Auth, Problems, pullTeams }

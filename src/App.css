@@ -21,6 +21,22 @@ ul {
   margin: 15vh 1vw;
 }
 
+.auth {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  opacity: .25;
+  z-index: 100;
+}
+
+.authform {
+  position: relative;
+  width: 25%;
+  height: 50%;
+  background-color: white;
+}
+
 .nav {
   position: fixed;
   background-color: #36454f;
