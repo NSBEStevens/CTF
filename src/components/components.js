@@ -72,7 +72,7 @@ async function solveProblem(problem,flag,teamName) {
         }
 }
 
-function Home(props) {
+function Problems(props) {
         return (
                 <>
 
@@ -108,4 +108,4 @@ function Auth(props) {
         );
 }
 
-export { Home, Auth }
+export { Auth, Problems, pullTeams }
