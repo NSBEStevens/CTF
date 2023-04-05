@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './App.css';
 import { Display } from './components/componentPicker'
-import { Home } from './components/components'
+import { Home, Auth } from './components/components'
 
 const nav = [
   {
@@ -29,8 +29,9 @@ function Nav(props) {
 }
 
 function WebPage(props) {
-  const [page, setPage] = useState(0);
-  return (
+  const [page, setPage] = useState(-1);
+  return (page === -1?
+    <Auth/>:
     <div>
       <Nav setPage={setPage}/>
       <Display component={page} info={nav}/>
