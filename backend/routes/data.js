@@ -24,7 +24,7 @@ const router = express.Router();
 router.get('/problems', async (req, res) => {
     try {
         let selectQuery = `SELECT * FROM problems`;
-        // let query = mysql.format(selectQuery, ['problemsTable', 'Proceeding', proceedingId]);
+        
         pool.query(selectQuery, (err, data) => {
             if (err) {
                 console.error(err);
@@ -40,7 +40,7 @@ router.get('/problems', async (req, res) => {
 router.get('/teams', async (req, res) => {
     try {
         let selectQuery = `SELECT * FROM teams`;
-        // let query = mysql.format(selectQuery, ['problemsTable', 'Proceeding', proceedingId]);
+        
         pool.query(selectQuery, (err, data) => {
             if (err) {
                 console.error(err);
@@ -53,10 +53,29 @@ router.get('/teams', async (req, res) => {
     }
 });
 
-router.post('/addTeam', async (req, res) => {
+router.post('/login', async (req, res) => {
     try {
-        let selectQuery = `SELECT * FROM teams where _key = '${req.params.teamName}'`;
-        // let query = mysql.format(selectQuery, ['problemsTable', 'Proceeding', proceedingId]);
+        let selectQuery = `SELECT * FROM teams where _key = '${req.body.teamName}' and ('${req.body.email}' = any(players))`;
+        
+        pool.query(selectQuery, (err, data) => {
+            if (err) {
+                console.error(err);
+                return;
+            }
+            if(data.rows.length === 0) throw "Invalid login";
+            return res.status(200).json(data.rows[0]);
+        });
+    } catch (e) {
+        res.status(500).json({error: e});
+    }
+});
+
+router.post('/addTeam', async (req, res) => {
+    let players=[req.body.player1,req.body.player2,req.body.player3];
+    try {
+        if(req.body.teamName === undefined) throw "Team Name not defined";
+        let selectQuery = `SELECT * FROM teams where _key = '${req.body.teamName}'`;
+        
         pool.query(selectQuery, (err, data) => {
             if (err) {
                 console.error(err);
@@ -65,11 +84,10 @@ router.post('/addTeam', async (req, res) => {
             if(data.rows.length > 0)
                 return res.status(400).json({teamFound:true});
         });
-
-        let createQuery = `insert into teams values('${req.params.teamName}', '{${req.params.players.reduce(x,y=>{
-            return `${x},${y}`;
+        let createQuery = `insert into teams values('`+req.body.teamName+`', '{${players.reduce((x,y)=>{
+            return y !== ""? `${x},${y}`: x;
         })}}', 0, '{}')`;
-        // let query = mysql.format(selectQuery, ['problemsTable', 'Proceeding', proceedingId]);
+        
         pool.query(createQuery, (err, data) => {
             if (err) {
                 console.error(err);
@@ -81,13 +99,15 @@ router.post('/addTeam', async (req, res) => {
 
         
     } catch (e) {
+        console.error(e);
         res.status(500).json({error: e});
     }
 });
 
 router.put('/solve', async (req, res) => {
     try {
-        let selectQuery = `SELECT * FROM problems where _key = '${req.params.problem}' and flag = '${req.params.flag}'`;
+        console.log(`${req.params.teamName} solved ${req.params.problem} with flag ${req.params.flag}`);
+        let selectQuery = `SELECT * FROM problems where _key = '${req.params.problem}' and ctfflag = '${req.params.flag}'`;
         // let query = mysql.format(selectQuery, ['problemsTable', 'Proceeding', proceedingId]);
         pool.query(selectQuery, (err, data) => {
             if (err) {

@@ -21,6 +21,7 @@ function Nav(props) {
 
 function WebPage(props) {
   const [page, setPage] = useState(-1);
+  const [team, setTeam] = useState("");
   const nav = [
     { page: 0, title: "Scoreboard", component: <Scoreboard page={page}/> },
     { page: 1, title: "Problems", component: <Problems/> }
@@ -31,7 +32,7 @@ function WebPage(props) {
 
   return (
     <div>
-      {page === -1? <Auth setPage={setPage}/>:<div/>}
+      {page === -1? <Auth setPage={setPage} team={team} setTeam={setTeam}/>:<div/>}
       <Nav setPage={setPage} nav={nav}/>
       <Display component={page} info={nav}/>
     </div>
