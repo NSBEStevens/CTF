@@ -135,6 +135,27 @@ code {
 }
 
 .components {
+  position: absolute;
+  top: 0;
+  margin: 5vh 3vw;
+  transition: ease-out margin .4s;
+  width: auto;
+  z-index: 1;
+}
+
+input[type=text] {
+  position: relative;
+  margin: 2vh auto;
+  width: 80%;
+}
+
+input[type=submit] {
+  position: relative;
+  margin: 2vh auto;
+  width: 80%;
+}
+
+.nav:hover .components {
   margin: 5vh 15vw;
 }
 

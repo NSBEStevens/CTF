@@ -9,9 +9,19 @@ import {useEffect, useState, useLayoutEffect} from 'react';
  * solved: string[]
  */
 
-async function pullTeams(results, setResults) {
+async function pullAllTeams(results, setResults) {
         try {
                 const { data } = await axios.get(`http://localhost:5000/data/teams`, {'Access-Control-Allow-Origin':'*'});
+                if(data !== results)
+                        setResults(data);
+        } catch (e) {
+                return console.error(e);
+        }
+}
+
+async function pullTeam(team, results, setResults) {
+        try {
+                const { data } = await axios.get(`http://localhost:5000/data/teams/${team}`, {'Access-Control-Allow-Origin':'*'});
                 if(data !== results)
                         setResults(data);
         } catch (e) {
@@ -27,7 +37,7 @@ async function pullTeams(results, setResults) {
  */
 async function makeTeam(t,p1,p2,p3) {
         try {
-                const { data } = await axios.post(`http://localhost:5000/data/addTeam`, {
+                await axios.post(`http://localhost:5000/data/addTeam`, {
                         teamName: t,
                         player1:p1,
                         player2:p2,
@@ -46,7 +56,7 @@ async function loginReq(team, player) {
                         teamName: team,
                         player:player
                 }, {'Access-Control-Allow-Origin':'*'});
-                return true;
+                return data.teamFound;
         } catch (e) {
                 console.error(e);
                 return false;
@@ -92,9 +102,21 @@ async function solveProblem(problem,flag,teamName) {
 }
 
 function Problems(props) {
+        const [results,setResults] = useState([]);
+        const [team, setTeam] = useState({});
+
+        useEffect(()=>{
+                pullProblems(results,setResults);
+                pullTeam(props.team,team,setTeam);
+        },[results,team,props.team]);
+
         return (
                 <>
+                        {results.map(x=>{ return (
+                                <div>
 
+                                </div>
+                        );})}
                 </>
         );
 }
@@ -104,7 +126,7 @@ function Scoreboard(props) {
         const [results, setResults] = useState([{_key:"test",points:0}]);
 
         useEffect(() => {
-                pullTeams(results,setResults);
+                pullAllTeams(results,setResults);
         }, [results])
 
         return (
@@ -194,4 +216,4 @@ function Auth(props) {
         );
 }
 
-export { Auth, Problems, Scoreboard, pullTeams }
+export { Auth, Problems, Scoreboard }

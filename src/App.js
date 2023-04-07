@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-import { Auth, Problems, Scoreboard, pullTeams } from './components/components'
+import { Auth, Problems, Scoreboard } from './components/components'
 import { Display } from './components/componentPicker';
 
 function Nav(props) {
@@ -15,6 +15,7 @@ function Nav(props) {
           })
         }
       </ul>
+      <Display component={props.page} info={props.nav}/>
     </div>
   );
 }
@@ -24,7 +25,7 @@ function WebPage(props) {
   const [team, setTeam] = useState("");
   const nav = [
     { page: 0, title: "Scoreboard", component: <Scoreboard page={page}/> },
-    { page: 1, title: "Problems", component: <Problems/> }
+    { page: 1, title: "Problems", component: <Problems team={team}/> }
   ];
   useEffect(() => {
 
@@ -33,8 +34,7 @@ function WebPage(props) {
   return (
     <div>
       {page === -1? <Auth setPage={setPage} team={team} setTeam={setTeam}/>:<div/>}
-      <Nav setPage={setPage} nav={nav}/>
-      <Display component={page} info={nav}/>
+      <Nav setPage={setPage} nav={nav} page={page}/>
     </div>
   );
 }

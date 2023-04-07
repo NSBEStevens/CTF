@@ -23,7 +23,7 @@ const router = express.Router();
 
 router.get('/problems', async (req, res) => {
     try {
-        let selectQuery = `SELECT * FROM problems`;
+        let selectQuery = `SELECT * FROM problems order by points desc`;
         
         pool.query(selectQuery, (err, data) => {
             if (err) {
@@ -53,6 +53,22 @@ router.get('/teams', async (req, res) => {
     }
 });
 
+router.get('/teams/:key', async (req, res) => {
+    try {
+        let selectQuery = `SELECT * FROM teams where _key = '${req.params.key}'`;
+        
+        pool.query(selectQuery, (err, data) => {
+            if (err) {
+                console.error(err);
+                return;
+            }
+            return res.status(200).json(data.rows[0]);
+        });
+    } catch (e) {
+        res.status(500).json({error: e});
+    }
+});
+
 router.post('/login', async (req, res) => {
     try {
         let selectQuery = `SELECT * FROM teams where _key = '${req.body.teamName}' and ('${req.body.email}' = any(players))`;
@@ -62,8 +78,11 @@ router.post('/login', async (req, res) => {
                 console.error(err);
                 return;
             }
-            if(data.rows.length === 0) throw "Invalid login";
-            return res.status(200).json(data.rows[0]);
+            if(data.rows.length === 0) {
+                res.status(400).json({teamFound:false});
+                throw "Invalid login";
+            }
+            return res.status(200).json({teamFound:false});
         });
     } catch (e) {
         res.status(500).json({error: e});
