@@ -1,23 +1,16 @@
-import React, { useState } from 'react';
-
-
+import React from 'react';
 
 function Scoreboard(props) {
   return (
-
     <table>
       <tr>
-        <th>Company</th>
-        <th>Contact</th> 
+        <th>Team Name</th>
+        <th>Points</th> 
       </tr>
-      <tr>
-        <td>Alfreds Futterkiste</td>
-        <td>Maria Anders</td> 
-      </tr>
-      <tr>
-        <td>Centro comercial Moctezuma</td>
-        <td>Francisco Chang</td> 
-      </tr>
+      {props.teams.map(x =>{<tr>
+        <td>{x._key}</td>
+        <td>{x.points}</td> 
+      </tr>})}
     </table>
   );
 }

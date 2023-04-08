@@ -1,42 +1,43 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
-import { Problems } from './components/components'
+import { Auth, Problems, Scoreboard } from './components/components'
 import { Display } from './components/componentPicker';
-import { Scoreboard } from './Scoreboard/scoreboard'
-import { Auth } from './components/components'
 
 function Nav(props) {
   return (
-    <div className="nav">
-      <ul>
-        {
-          props.nav.map(x=>{
-            return (<li key={x.page}>
-              <button className={"nava"} onClick={() => props.setPage(x.page)}>{x.title}</button>
-            </li>)
-          })
-        }
-      </ul>
+    <div>
+      <div className="nav">
+        <ul>
+          {
+            props.nav.map(x=>{
+              return (<li key={x.page}>
+                <button className={"nava"} onClick={() => props.setPage(x.page)}>{x.title}</button>
+              </li>)
+            })
+          }
+        </ul>
+      </div>
+      <Display component={props.page} info={props.nav}/>
     </div>
   );
 }
 
 function WebPage(props) {
+  const [rerender, setRerender] = useState(false);
   const [page, setPage] = useState(-1);
+  const [team, setTeam] = useState("");
   const nav = [
-    { page: 0, title: "Scoreboard", component: <Scoreboard/> },
-    { page: 1, title: "Problems", component: <Problems/> }
+    { page: 0, title: "Scoreboard", component: <Scoreboard page={page} rerender={rerender} setRerender={setRerender}/> },
+    { page: 1, title: "Problems", component: <Problems team={team} rerender={rerender} setRerender={setRerender}/> }
   ];
   useEffect(() => {
 
   },[page]);
 
   return (
-  return (page === -1?
-    <Auth/>:
     <div>
-      <Nav setPage={setPage} nav={nav}/>
-      <Display component={page} info={nav}/>
+      {page === -1? <Auth setPage={setPage} team={team} setTeam={setTeam}/>:<div/>}
+      <Nav setPage={setPage} nav={nav} page={page}/>
     </div>
   );
 }
