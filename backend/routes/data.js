@@ -23,7 +23,7 @@ const router = express.Router();
 
 router.get('/problems', async (req, res) => {
     try {
-        let selectQuery = `SELECT _key, desc, points, path FROM problems order by points desc`;
+        let selectQuery = `SELECT _key, description, points, path FROM problems order by points desc`;
         
         pool.query(selectQuery, (err, data) => {
             if (err) {
@@ -124,7 +124,7 @@ router.post('/addTeam', async (req, res) => {
 
 router.put('/solve', async (req, res) => {
     try {
-        console.log(`${req.params.teamName} solved ${req.params.problem} with flag ${req.params.flag}`);
+        console.log(`${req.body.teamName} solved ${req.body.problem} with flag ${req.body.flag}`);
         let selectQuery = `SELECT * FROM problems where _key = '${req.params.problem}' and ctfflag = '${req.params.flag}'`;
         // let query = mysql.format(selectQuery, ['problemsTable', 'Proceeding', proceedingId]);
         pool.query(selectQuery, (err, data) => {

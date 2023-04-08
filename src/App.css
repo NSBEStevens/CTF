@@ -161,32 +161,35 @@ input[type=submit] {
   border-style: solid;
 }
 
-.problem {
+.problem,.solved {
   position: relative;
   box-shadow: 0px 5px 10px;
   border-width: 1px;
   border-color: #293542;
   border-style: solid;
-  width: 10vw;
+  width:4vw;
+  height: 8vh;
+  transition: height ease-out .25s, width ease-out .25s;
+}
+
+.problem {
+  background-color: cornflowerblue;
 }
 
 .solved {
-  position: relative;
-  box-shadow: 0px 5px 10px;
-  border-width: 1px;
-  border-color: #293542;
-  border-style: solid;
+  background-color: rgb(121, 121, 121);
 }
 
 .problemcontent {
   display: none;
+}
+
+.problem:hover, .solved:hover {
+  width: 25vw;
+  height: 40vh;
+}
+
+.problem:hover .problemcontent, .solved:hover .problemcontent {
+  display: block;
   animation: appear 2s;
-}
-
-.problem:hover .problemcontent {
-  display: contents;
-}
-
-.solved:hover .problemcontent {
-  display: contents;
 }

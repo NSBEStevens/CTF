@@ -103,7 +103,7 @@ async function solveProblem(problem,flag,teamName) {
 function Problems(props) {
         const [results,setResults] = useState([]);
         const [team, setTeam] = useState({_key:"", players:[], points:"", solved:[]});
-
+        const [flag, setFlag] = useState("");
         useEffect(()=>{
                 pullProblems(results,setResults);
                 pullTeam(props.team,team,setTeam);
@@ -113,9 +113,20 @@ function Problems(props) {
                 <>
                         {results.map(x=>{ return (
                                 <div className={team.solved.filter(y=>y===x._key).length > 0? "solved":"problem"}>
-                                        <h1>{x.points}</h1>
-                                        <div className="problemsontents">
-
+                                        <h2>{x.points}</h2>
+                                        <div className="problemcontent">
+                                                <h1>{x._key}</h1>
+                                                <p>{x.description}</p>
+                                                <a href={x.path} download className="btn" target='_blank' rel="noreferrer" >Problem Files</a>
+                                                <form onSubmit={e=>{
+                                                        e.preventDefault();
+                                                        solveProblem(x.key,flag,team._key);
+                                                }}>
+                                                        <input name="search" placeholder="nsbe_ctf{flag}" type="text" onChange={e=>{
+                                                                setFlag(e.target.value);
+                                                        }}/>
+                                                        <input type="submit"/>
+                                                </form>
                                         </div>
                                 </div>
                         );})}
