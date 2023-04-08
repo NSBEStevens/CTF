@@ -65,9 +65,8 @@ async function loginReq(team, player) {
 
 /**
  * @return {JSON[]}
- * {_key, flag, desc, points, path}
+ * {_key, desc, points, path}
  * _key: string
- * flag: string
  * desc: string
  * points: int
  * path: string
@@ -103,7 +102,7 @@ async function solveProblem(problem,flag,teamName) {
 
 function Problems(props) {
         const [results,setResults] = useState([]);
-        const [team, setTeam] = useState({});
+        const [team, setTeam] = useState({_key:"", players:[], points:"", solved:[]});
 
         useEffect(()=>{
                 pullProblems(results,setResults);
@@ -113,8 +112,11 @@ function Problems(props) {
         return (
                 <>
                         {results.map(x=>{ return (
-                                <div>
+                                <div className={team.solved.filter(y=>y===x._key).length > 0? "solved":"problem"}>
+                                        <h1>{x.points}</h1>
+                                        <div className="problemsontents">
 
+                                        </div>
                                 </div>
                         );})}
                 </>

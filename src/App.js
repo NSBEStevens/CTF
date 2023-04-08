@@ -5,16 +5,18 @@ import { Display } from './components/componentPicker';
 
 function Nav(props) {
   return (
-    <div className="nav">
-      <ul>
-        {
-          props.nav.map(x=>{
-            return (<li key={x.page}>
-              <button className={"nava"} onClick={() => props.setPage(x.page)}>{x.title}</button>
-            </li>)
-          })
-        }
-      </ul>
+    <div>
+      <div className="nav">
+        <ul>
+          {
+            props.nav.map(x=>{
+              return (<li key={x.page}>
+                <button className={"nava"} onClick={() => props.setPage(x.page)}>{x.title}</button>
+              </li>)
+            })
+          }
+        </ul>
+      </div>
       <Display component={props.page} info={props.nav}/>
     </div>
   );

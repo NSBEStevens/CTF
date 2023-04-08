@@ -23,7 +23,7 @@ const router = express.Router();
 
 router.get('/problems', async (req, res) => {
     try {
-        let selectQuery = `SELECT * FROM problems order by points desc`;
+        let selectQuery = `SELECT _key, desc, points, path FROM problems order by points desc`;
         
         pool.query(selectQuery, (err, data) => {
             if (err) {
@@ -79,8 +79,7 @@ router.post('/login', async (req, res) => {
                 return;
             }
             if(data.rows.length === 0) {
-                res.status(400).json({teamFound:false});
-                throw "Invalid login";
+                return res.status(200).json({teamFound:false});
             }
             return res.status(200).json({teamFound:false});
         });
