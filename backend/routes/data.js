@@ -125,7 +125,7 @@ router.post('/addTeam', async (req, res) => {
 router.put('/solve', async (req, res) => {
     try {
         console.log(`${req.body.teamName} solved ${req.body.problem} with flag ${req.body.flag}`);
-        let selectQuery = `SELECT * FROM problems where _key = '${req.params.problem}' and ctfflag = '${req.params.flag}'`;
+        let selectQuery = `SELECT * FROM problems where _key = '${req.body.problem}' and ctfflag = '${req.body.flag}'`;
         // let query = mysql.format(selectQuery, ['problemsTable', 'Proceeding', proceedingId]);
         pool.query(selectQuery, (err, data) => {
             if (err) {
@@ -133,14 +133,14 @@ router.put('/solve', async (req, res) => {
                 return;
             }
             if(data.rows.length > 0) {
-                let shouldUpdateQuery = `select * from teams where _key = '${req.params.teamName}' and ((${req.params.problem} = any(solved)) is not true)`;
+                let shouldUpdateQuery = `select * from teams where _key = '${req.body.teamName}' and not ('${req.body.problem}' = any(solved))`;
                 pool.query(shouldUpdateQuery, (err, data2) => {
                     if (err) {
                         console.error(err);
                         return;
                     }
                     if(data.rows.length > 0){
-                        let updateQuery = `update teams set solved = solved || '${req.params.problem}', points = ${data2.rows[0].points+data.rows[0].points}`;
+                        let updateQuery = `update teams set solved = solved || '{${req.body.problem}}', points = ${data2.rows[0].points+data.rows[0].points}`;
                         pool.query(updateQuery, (err,data) =>{
                             if (err) {
                                 console.error(err);

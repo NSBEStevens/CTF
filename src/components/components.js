@@ -105,9 +105,11 @@ function Problems(props) {
         const [team, setTeam] = useState({_key:"", players:[], points:"", solved:[]});
         const [flag, setFlag] = useState("");
         useEffect(()=>{
+                if(props.rerender)
+                        props.setRerender(false);
                 pullProblems(results,setResults);
                 pullTeam(props.team,team,setTeam);
-        },[results,team,props.team]);
+        },[results,team,props.team,props.rerender, props]);
 
         return (
                 <>
@@ -120,7 +122,8 @@ function Problems(props) {
                                                 <a href={x.path} download className="btn" target='_blank' rel="noreferrer" >Problem Files</a>
                                                 <form onSubmit={e=>{
                                                         e.preventDefault();
-                                                        solveProblem(x.key,flag,team._key);
+                                                        solveProblem(x._key,flag,team._key);
+                                                        props.setRerender(true);
                                                 }}>
                                                         <input name="search" placeholder="nsbe_ctf{flag}" type="text" onChange={e=>{
                                                                 setFlag(e.target.value);
@@ -140,7 +143,7 @@ function Scoreboard(props) {
 
         useEffect(() => {
                 pullAllTeams(results,setResults);
-        }, [results])
+        }, [results, props.rerender])
 
         return (
                 <table>

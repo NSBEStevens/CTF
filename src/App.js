@@ -23,11 +23,12 @@ function Nav(props) {
 }
 
 function WebPage(props) {
+  const [rerender, setRerender] = useState(false);
   const [page, setPage] = useState(-1);
   const [team, setTeam] = useState("");
   const nav = [
-    { page: 0, title: "Scoreboard", component: <Scoreboard page={page}/> },
-    { page: 1, title: "Problems", component: <Problems team={team}/> }
+    { page: 0, title: "Scoreboard", component: <Scoreboard page={page} rerender={rerender} setRerender={setRerender}/> },
+    { page: 1, title: "Problems", component: <Problems team={team} rerender={rerender} setRerender={setRerender}/> }
   ];
   useEffect(() => {
 
