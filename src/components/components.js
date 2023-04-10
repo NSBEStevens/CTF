@@ -8,10 +8,10 @@ import {useEffect, useState, useLayoutEffect} from 'react';
  * points: int
  * solved: string[]
  */
-
+const url = "https://discardsoftware.com";
 async function pullAllTeams(results, setResults) {
         try {
-                const { data } = await axios.get(`http://localhost:5000/data/teams`, {'Access-Control-Allow-Origin':'*'});
+                const { data } = await axios.get(`${url}/data/teams`, {'Access-Control-Allow-Origin':'*'});
                 if(data !== results)
                         setResults(data);
         } catch (e) {
@@ -21,7 +21,7 @@ async function pullAllTeams(results, setResults) {
 
 async function pullTeam(team, results, setResults) {
         try {
-                const { data } = await axios.get(`http://localhost:5000/data/teams/${team}`, {'Access-Control-Allow-Origin':'*'});
+                const { data } = await axios.get(`${url}/data/teams/${team}`, {'Access-Control-Allow-Origin':'*'});
                 if(data !== results)
                         setResults(data);
         } catch (e) {
@@ -37,7 +37,7 @@ async function pullTeam(team, results, setResults) {
  */
 async function makeTeam(t,p1,p2,p3) {
         try {
-                await axios.post(`http://localhost:5000/data/addTeam`, {
+                await axios.post(`${url}/data/addTeam`, {
                         teamName: t,
                         player1:p1,
                         player2:p2,
@@ -52,7 +52,7 @@ async function makeTeam(t,p1,p2,p3) {
 
 async function loginReq(team, player) {
         try {
-                const { data } = await axios.post(`http://localhost:5000/data/login`, {
+                const { data } = await axios.post(`${url}/data/login`, {
                         teamName: team,
                         player:player
                 }, {'Access-Control-Allow-Origin':'*'});
@@ -73,7 +73,7 @@ async function loginReq(team, player) {
  */
 async function pullProblems(results,setResults) {
         try {
-                const { data } = await axios.get(`http://localhost:5000/data/problems`, {'Access-Control-Allow-Origin':'*'});
+                const { data } = await axios.get(`${url}/data/problems`, {'Access-Control-Allow-Origin':'*'});
                 if(results !== data)
                         setResults(data);
         } catch (e) {
@@ -89,7 +89,7 @@ async function pullProblems(results,setResults) {
  */
 async function solveProblem(problem,flag,teamName) {
         try {
-                const { data } = await axios.put(`http://localhost:5000/data/solve`,{
+                const { data } = await axios.put(`${url}/data/solve`,{
                         problem: problem,
                         flag: flag,
                         teamName: teamName
