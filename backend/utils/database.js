@@ -3,7 +3,11 @@ const csvtojson = require("csvtojson");
 const fileName = `${__dirname}/problems.csv`;
 require('dotenv').config();
 const pool = new Pool({
-    connectionString: process.env.DATABASE_URL
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false,
+        requestCert: true
+      }
     // host: process.env.DB_HOST,
     // user: process.env.DB_USER,
     // port: process.env.DB_PORT,
