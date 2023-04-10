@@ -1,2 +1,2 @@
-_key,flag,desc,points,path
-Problem 1,nsbe_ctf{flag},description of problem,100,./path/from/root/folder
+_key,flag,desc,points,path,cg
+Problem 1,nsbe_ctf{flag},description of problem,100,./path/from/root/folder,Logic
