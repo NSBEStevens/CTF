@@ -1,0 +1,13 @@
+A Farmer is travelling with his pet Wolf, his Chicken, and a bag of Chicken Seed.
+
+He comes across a river too big to cross on foot but had a rowboat large enough to fit him and one of his 3 things at a time.
+
+In order to cross the river, he must be careful: if he leaves his Chicken alone with his Chicken seed, it will eat the whole bag.
+
+Similarly, if he leaves the Chicken alone with the Wolf, the Wolf will eat the Chicken.
+
+Remember, he can only bring 1 thing across the river at a time.
+
+How many times must he cross the river in order to bring all 3 of his things across the river safely?
+
+Enter in form 'nsbe_ctf{/* Answer */}'

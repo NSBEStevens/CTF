@@ -103,6 +103,7 @@ async function solveProblem(problem,flag,teamName) {
 function Problems(props) {
         const [results,setResults] = useState([]);
         const [team, setTeam] = useState({_key:"", players:[], points:"", solved:[]});
+        const [cg, setCategory] = useState("");
         const [flag, setFlag] = useState("");
         useEffect(()=>{
                 if(props.rerender)
@@ -111,25 +112,38 @@ function Problems(props) {
                 pullTeam(props.team,team,setTeam);
         },[results,team,props.team,props.rerender, props]);
 
+        function shouldUpdateCg(cat) {
+                if(cat === cg)
+                        return <p/>;
+                else {
+                        setCategory(cat);
+                        setTimeout(()=>{}, 50);
+                        return <h1>{cat}</h1>;
+                }
+        }
+
         return (
                 <>
                         {results.map(x=>{ return (
-                                <div className={team.solved.filter(y=>y===x._key).length > 0? "solved":"problem"}>
-                                        <h2>{x.points}</h2>
-                                        <div className="problemcontent">
-                                                <h1>{x._key}</h1>
-                                                <p>{x.description}</p>
-                                                <a href={x.path} download className="btn" target='_blank' rel="noreferrer" >Problem Files</a>
-                                                <form onSubmit={e=>{
-                                                        e.preventDefault();
-                                                        solveProblem(x._key,flag,team._key);
-                                                        props.setRerender(true);
-                                                }}>
-                                                        <input name="search" placeholder="nsbe_ctf{flag}" type="text" onChange={e=>{
-                                                                setFlag(e.target.value);
-                                                        }}/>
-                                                        <input type="submit"/>
-                                                </form>
+                                <div>
+                                
+                                        <div className={team.solved.filter(y=>y===x._key).length > 0? "solved":"problem"}>
+                                                <h2>{x.points}</h2>
+                                                <div className="problemcontent">
+                                                        <h1>{x._key}</h1>
+                                                        <p>{x.description}</p>
+                                                        {x.path !== "none"?<a href={x.path} download className="btn" target='_blank' rel="noreferrer" >Problem Files</a>:<div/>}
+                                                        <form onSubmit={e=>{
+                                                                e.preventDefault();
+                                                                solveProblem(x._key,flag,team._key);
+                                                                props.setRerender(true);
+                                                        }}>
+                                                                <input name="search" placeholder="nsbe_ctf{flag}" type="text" onChange={e=>{
+                                                                        setFlag(e.target.value);
+                                                                }}/>
+                                                                <input type="submit"/>
+                                                        </form>
+                                                </div>
                                         </div>
                                 </div>
                         );})}

@@ -162,14 +162,18 @@ input[type=submit] {
 }
 
 .problem,.solved {
+  margin: 0 2vw 2vh;
   position: relative;
+  display: inline-block;
   box-shadow: 0px 5px 10px;
   border-width: 1px;
   border-color: #293542;
   border-style: solid;
   width:4vw;
+  left: 0;
+  top: 0;
   height: 8vh;
-  transition: height ease-out .25s, width ease-out .25s;
+  transition: height ease-out .25s, width ease-out .25s, transform ease-out .25s;
 }
 
 .problem {

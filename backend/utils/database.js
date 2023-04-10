@@ -17,7 +17,7 @@ pool.connect((error) => {
         return;
     }
     console.log('Database Connection established successfully');
-    const create = "CREATE TABLE problems(_key VARCHAR(32) NOT NULL PRIMARY KEY, ctfflag VARCHAR(32) NOT NULL, description VARCHAR(512) NOT NULL, points INTEGER  NOT NULL,path varchar(128) NOT NULL) on conflict do nothing;"
+    const create = "CREATE TABLE problems(_key VARCHAR(32) NOT NULL PRIMARY KEY, ctfflag VARCHAR(32) NOT NULL, description VARCHAR(512) NOT NULL, points INTEGER  NOT NULL,path varchar(128) NOT NULL, cg varchar(32) NOT NULL ) on conflict do nothing;"
     // Creating table "problems"
     pool.query(create, (err, drop) => {
         if (err) console.error(error);
@@ -37,9 +37,10 @@ pool.connect((error) => {
             let Title = source[i]["desc"];
             let Abstract = source[i]["points"];
             let Path = source[i]["path"];
+            let cg = source[i]["cg"];
 
-            let insertStatement =   `INSERT INTO problems values ($1, $2, $3, $4, $5) on conflict do nothing`;
-            let items = [_key, Authors, Title, Abstract, Path];
+            let insertStatement =   `INSERT INTO problems values ($1, $2, $3, $4, $5, $6) on conflict do nothing`;
+            let items = [_key, Authors, Title, Abstract, Path, cg];
 
             pool.query(insertStatement, items, (err, results, fields) => {
                 if (err){ 
