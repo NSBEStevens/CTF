@@ -23,7 +23,7 @@ const router = express.Router();
 
 router.get('/problems', async (req, res) => {
     try {
-        let selectQuery = `SELECT _key, description, points, path FROM problems order by points desc`;
+        let selectQuery = `SELECT _key, description, points, path, cg FROM problems order by cg desc, points desc`;
         
         pool.query(selectQuery, (err, data) => {
             if (err) {
