@@ -190,10 +190,10 @@ input[type=submit] {
 
 .problem:hover, .solved:hover {
   width: 25vw;
-  height: 40vh;
+  height: 45vh;
 }
 
 .problem:hover .problemcontent, .solved:hover .problemcontent {
-  display: block;
+  display: inline-block;
   animation: appear 2s;
 }

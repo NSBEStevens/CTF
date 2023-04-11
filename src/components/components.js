@@ -118,9 +118,9 @@ async function solveProblem(problem,flag,teamName) {
 }
 
 function Problems(props) {
+        const topics = ["Logic", "General Knowledge"];
         const [results,setResults] = useState([]);
         const [team, setTeam] = useState({_key:"", players:[], points:"", solved:[]});
-        const [cg, setCategory] = useState("");
         const [flag, setFlag] = useState("");
         useLayoutEffect(()=>{
                 if(props.rerender)
@@ -129,21 +129,12 @@ function Problems(props) {
                 pullTeam(props.team,team,setTeam);
         },[results,team,props.team,props.rerender, props]);
 
-        function shouldUpdateCg(cat) {
-                if(cat === cg)
-                        return <p/>;
-                else {
-                        setCategory(cat);
-                        setTimeout(()=>{}, 50);
-                        return <h1>{cat}</h1>;
-                }
-        }
-
         return (
                 <>
-                        {results.map(x=>{ return (
-                                <div>
-                                {shouldUpdateCg(x.cg)}
+                        {topics.map(topic =>
+                        <>
+                                <h1>{topic}</h1>
+                                        {results.map(x=>{ return (x.cg === topic?
                                         <div className={team.solved.filter(y=>y===x._key).length > 0? "solved":"problem"}>
                                                 <h2>{x.points}</h2>
                                                 <div className="problemcontent">
@@ -161,31 +152,10 @@ function Problems(props) {
                                                                 <input type="submit"/>
                                                         </form>
                                                 </div>
-                                        </div>
-                                </div>
+                                        </div>:<div/>
                         );})}
-                        <div className={"problem"}>
-                                <h2>Delete</h2>
-                                <div className="problemcontent">
-                                        <h1>Delete From Database</h1>
-                                        <label>Clear Teams</label>
-                                        <form onSubmit={e=>{
-                                                e.preventDefault();
-                                                deleteTeams();
-                                                props.setRerender(true);
-                                        }}>
-                                        <input type="submit"/>
-                                        </form>
-                                        <label>Clear Problems</label>
-                                        <form onSubmit={e=>{
-                                                e.preventDefault();
-                                                deleteProblems();
-                                                props.setRerender(true);
-                                        }}>
-                                        <input type="submit"/>
-                                        </form>
-                                </div>
-                        </div>
+                        </>
+                        )}
                 </>
         );
 }
@@ -199,6 +169,7 @@ function Scoreboard(props) {
         }, [results, props.rerender])
 
         return (
+                <>
                 <table>
                         <thead>
                                 <tr>
@@ -217,6 +188,27 @@ function Scoreboard(props) {
                         })}
                         </tbody>
                 </table>
+                <div className={"problem"}>
+                                <h2>Delete</h2>
+                                <div className="problemcontent">
+                                        <h1>Delete From Database</h1>
+                                        <label>Clear Teams</label>
+                                        <form onSubmit={e=>{
+                                                e.preventDefault();
+                                                deleteTeams();
+                                        }}>
+                                        <input type="submit"/>
+                                        </form>
+                                        <label>Clear Problems</label>
+                                        <form onSubmit={e=>{
+                                                e.preventDefault();
+                                                deleteProblems();
+                                        }}>
+                                        <input type="submit"/>
+                                        </form>
+                                </div>
+                        </div>
+                </>
         );
 }
 

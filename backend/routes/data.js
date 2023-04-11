@@ -71,7 +71,7 @@ router.get('/teams/:key', async (req, res) => {
 
 router.post('/login', async (req, res) => {
     try {
-        let selectQuery = `SELECT * FROM teams where _key = '${req.body.teamName}' and ('${req.body.email}' = any(players))`;
+        let selectQuery = `SELECT * FROM teams where _key = '${req.body.teamName}' and ('${req.body.email}' in(players))`;
         
         pool.query(selectQuery, (err, data) => {
             if (err) {
@@ -81,7 +81,7 @@ router.post('/login', async (req, res) => {
             if(data.rows.length === 0) {
                 return res.status(200).json({teamFound:false});
             }
-            return res.status(200).json({teamFound:false});
+            return res.status(200).json({teamFound:true});
         });
     } catch (e) {
         res.status(500).json({error: e});
