@@ -4,16 +4,16 @@
 require('dotenv').config();
 const {Pool} = require('pg')
 const pool = new Pool({
-    /*connectionString: process.env.DATABASE_URL,
+    connectionString: process.env.DATABASE_URL,
     ssl: {
       rejectUnauthorized: false,
       requestCert: true
-    },*/
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    port: process.env.DB_PORT,
-    password: process.env.DB_PASS,
-    database: process.env.DB_NAME
+    }
+    // host: process.env.DB_HOST,
+    // user: process.env.DB_USER,
+    // port: process.env.DB_PORT,
+    // password: process.env.DB_PASS,
+    // database: process.env.DB_NAME
 });
 pool.connect();
 const express = require('express');
@@ -159,6 +159,18 @@ router.put('/solve', async (req, res) => {
     } catch (e) {
         res.status(500).json({error: e});
     }
+});
+
+router.post('/clearProblems', (req, res) => {
+    pool.query("delete from problems *", (err,data) => {
+        if(err) console.error(err);
+    });
+});
+
+router.post('/clearTeams', (req, res) => {
+    pool.query("delete from teams *", (err,data) => {
+        if(err) console.error(err);
+    });
 });
 
 module.exports = router;

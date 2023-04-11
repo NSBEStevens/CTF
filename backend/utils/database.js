@@ -3,11 +3,16 @@ const csvtojson = require("csvtojson");
 const fileName = `${__dirname}/problems.csv`;
 require('dotenv').config();
 const pool = new Pool({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    port: process.env.DB_PORT,
-    password: process.env.DB_PASS,
-    database: process.env.DB_NAME
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false,
+        requestCert: true
+      }
+    // host: process.env.DB_HOST,
+    // user: process.env.DB_USER,
+    // port: process.env.DB_PORT,
+    // password: process.env.DB_PASS,
+    // database: process.env.DB_NAME
 });
 
 // singular database
@@ -17,17 +22,13 @@ pool.connect((error) => {
         return;
     }
     console.log('Database Connection established successfully');
-    const create = "CREATE TABLE problems(_key VARCHAR(32) NOT NULL PRIMARY KEY, ctfflag VARCHAR(32) NOT NULL, description VARCHAR(512) NOT NULL, points INTEGER  NOT NULL,path varchar(128) NOT NULL, cg varchar(32) NOT NULL ) on conflict do nothing;"
+    // Creating table "problems"
+    const create = "CREATE TABLE problems(_key VARCHAR(32) NOT NULL PRIMARY KEY, ctfflag VARCHAR(32) NOT NULL, description VARCHAR(512) NOT NULL, points INTEGER  NOT NULL,path varchar(128) NOT NULL, cg varchar(32) NOT NULL );CREATE TABLE teams(_key VARCHAR(64) NOT NULL PRIMARY KEY, players text[] NOT NULL, points INTEGER  NOT NULL, solved text[]);"
     // Creating table "problems"
     pool.query(create, (err, drop) => {
-        if (err) console.error(error);
+            if (err) console.error(error);
     });
     
-    const teams = "CREATE TABLE teams(_key VARCHAR(64) NOT NULL PRIMARY KEY, players text[] NOT NULL, points INTEGER  NOT NULL, solved text[]) on conflict do nothing;"
-    // Creating table "teams"
-    pool.query(teams, (err, drop) => {
-        if (err) console.error(error);
-    });
 
     csvtojson().fromFile(fileName).then((source) => {
         // fetching the data from each row and inserting into "preTable"

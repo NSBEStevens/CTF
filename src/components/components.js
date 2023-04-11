@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {useEffect, useState, useLayoutEffect} from 'react';
+import {useState, useLayoutEffect} from 'react';
 /**
  * @return {JSON[]}
  * {_key, players, points, solved}
@@ -8,10 +8,27 @@ import {useEffect, useState, useLayoutEffect} from 'react';
  * points: int
  * solved: string[]
  */
+const url = "https://www.discardsoftware.com";
+
+async function deleteTeams() {
+        try {
+                await axios.post(`${url}/data/clearTeams`, {'Access-Control-Allow-Origin':'*'});
+        } catch (e) {
+                return console.error(e);
+        }
+}
+
+async function deleteProblems() {
+        try {
+                await axios.post(`${url}/data/clearProblems`, {'Access-Control-Allow-Origin':'*'});
+        } catch (e) {
+                return console.error(e);
+        }
+}
 
 async function pullAllTeams(results, setResults) {
         try {
-                const { data } = await axios.get(`http://localhost:5000/data/teams`, {'Access-Control-Allow-Origin':'*'});
+                const { data } = await axios.get(`${url}/data/teams`, {'Access-Control-Allow-Origin':'*'});
                 if(data !== results)
                         setResults(data);
         } catch (e) {
@@ -21,7 +38,7 @@ async function pullAllTeams(results, setResults) {
 
 async function pullTeam(team, results, setResults) {
         try {
-                const { data } = await axios.get(`http://localhost:5000/data/teams/${team}`, {'Access-Control-Allow-Origin':'*'});
+                const { data } = await axios.get(`${url}/data/teams/${team}`, {'Access-Control-Allow-Origin':'*'});
                 if(data !== results)
                         setResults(data);
         } catch (e) {
@@ -37,7 +54,7 @@ async function pullTeam(team, results, setResults) {
  */
 async function makeTeam(t,p1,p2,p3) {
         try {
-                await axios.post(`http://localhost:5000/data/addTeam`, {
+                await axios.post(`${url}/data/addTeam`, {
                         teamName: t,
                         player1:p1,
                         player2:p2,
@@ -52,7 +69,7 @@ async function makeTeam(t,p1,p2,p3) {
 
 async function loginReq(team, player) {
         try {
-                const { data } = await axios.post(`http://localhost:5000/data/login`, {
+                const { data } = await axios.post(`${url}/data/login`, {
                         teamName: team,
                         player:player
                 }, {'Access-Control-Allow-Origin':'*'});
@@ -73,7 +90,7 @@ async function loginReq(team, player) {
  */
 async function pullProblems(results,setResults) {
         try {
-                const { data } = await axios.get(`http://localhost:5000/data/problems`, {'Access-Control-Allow-Origin':'*'});
+                const { data } = await axios.get(`${url}/data/problems`, {'Access-Control-Allow-Origin':'*'});
                 if(results !== data)
                         setResults(data);
         } catch (e) {
@@ -89,7 +106,7 @@ async function pullProblems(results,setResults) {
  */
 async function solveProblem(problem,flag,teamName) {
         try {
-                const { data } = await axios.put(`http://localhost:5000/data/solve`,{
+                const { data } = await axios.put(`${url}/data/solve`,{
                         problem: problem,
                         flag: flag,
                         teamName: teamName
@@ -105,7 +122,7 @@ function Problems(props) {
         const [team, setTeam] = useState({_key:"", players:[], points:"", solved:[]});
         const [cg, setCategory] = useState("");
         const [flag, setFlag] = useState("");
-        useEffect(()=>{
+        useLayoutEffect(()=>{
                 if(props.rerender)
                         props.setRerender(false);
                 pullProblems(results,setResults);
@@ -126,7 +143,7 @@ function Problems(props) {
                 <>
                         {results.map(x=>{ return (
                                 <div>
-                                
+                                {shouldUpdateCg(x.cg)}
                                         <div className={team.solved.filter(y=>y===x._key).length > 0? "solved":"problem"}>
                                                 <h2>{x.points}</h2>
                                                 <div className="problemcontent">
@@ -147,15 +164,37 @@ function Problems(props) {
                                         </div>
                                 </div>
                         );})}
+                        <div className={"problem"}>
+                                <h2>Delete</h2>
+                                <div className="problemcontent">
+                                        <h1>Delete From Database</h1>
+                                        <label>Clear Teams</label>
+                                        <form onSubmit={e=>{
+                                                e.preventDefault();
+                                                deleteTeams();
+                                                props.setRerender(true);
+                                        }}>
+                                        <input type="submit"/>
+                                        </form>
+                                        <label>Clear Problems</label>
+                                        <form onSubmit={e=>{
+                                                e.preventDefault();
+                                                deleteProblems();
+                                                props.setRerender(true);
+                                        }}>
+                                        <input type="submit"/>
+                                        </form>
+                                </div>
+                        </div>
                 </>
         );
 }
 
 function Scoreboard(props) {
         
-        const [results, setResults] = useState([{_key:"test",points:0}]);
+        const [results, setResults] = useState([]);
 
-        useEffect(() => {
+        useLayoutEffect(() => {
                 pullAllTeams(results,setResults);
         }, [results, props.rerender])
 
