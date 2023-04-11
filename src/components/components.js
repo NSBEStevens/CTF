@@ -118,7 +118,7 @@ async function solveProblem(problem,flag,teamName) {
 }
 
 function Problems(props) {
-        const topics = ["Logic", "General Knowledge"];
+        const topics = ["Logic", "General Knowledge", "Forensics", "Cryptography"];
         const [results,setResults] = useState([]);
         const [team, setTeam] = useState({_key:"", players:[], points:"", solved:[]});
         const [flag, setFlag] = useState("");
@@ -134,13 +134,13 @@ function Problems(props) {
                         {topics.map(topic =>
                         <>
                                 <h1>{topic}</h1>
-                                        {results.map(x=>{ return (x.cg === topic?
+                                {results.map(x=>{ return (x.cg === topic?
                                         <div className={team.solved.filter(y=>y===x._key).length > 0? "solved":"problem"}>
                                                 <h2>{x.points}</h2>
                                                 <div className="problemcontent">
                                                         <h1>{x._key}</h1>
-                                                        <p>{x.description}</p>
-                                                        {x.path !== "none"?<a href={x.path} download className="btn" target='_blank' rel="noreferrer" >Problem Files</a>:<div/>}
+                                                        {x._key !== "Snoop Dogg" ? <p>{x.description}</p>:<a href={"https://www.discardsoftware.com/challenges/challenge4"} className="btn" target='_blank' rel="noreferrer">{x.description}</a>}
+                                                        {x.path !== "none"?<a href={x.path} download className="btn" target='_blank' rel="noreferrer">Problem Files</a>:<div/>}
                                                         <form onSubmit={e=>{
                                                                 e.preventDefault();
                                                                 solveProblem(x._key,flag,team._key);
@@ -153,7 +153,7 @@ function Problems(props) {
                                                         </form>
                                                 </div>
                                         </div>:<div/>
-                        );})}
+                                );})}
                         </>
                         )}
                 </>
