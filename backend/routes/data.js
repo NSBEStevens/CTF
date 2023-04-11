@@ -161,4 +161,16 @@ router.put('/solve', async (req, res) => {
     }
 });
 
+router.post('/clearProblems', (req, res) => {
+    pool.query("delete from problems *", (err,data) => {
+        if(err) console.error(err);
+    });
+});
+
+router.post('/clearTeams', (req, res) => {
+    pool.query("delete from teams *", (err,data) => {
+        if(err) console.error(err);
+    });
+});
+
 module.exports = router;
