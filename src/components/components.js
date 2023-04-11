@@ -8,7 +8,7 @@ import {useEffect, useState, useLayoutEffect} from 'react';
  * points: int
  * solved: string[]
  */
-const url = "https://discardsoftware.com";
+const url = "https://www.discardsoftware.com";
 async function pullAllTeams(results, setResults) {
         try {
                 const { data } = await axios.get(`${url}/data/teams`, {'Access-Control-Allow-Origin':'*'});
@@ -105,7 +105,7 @@ function Problems(props) {
         const [team, setTeam] = useState({_key:"", players:[], points:"", solved:[]});
         const [cg, setCategory] = useState("");
         const [flag, setFlag] = useState("");
-        useEffect(()=>{
+        useLayoutEffect(()=>{
                 if(props.rerender)
                         props.setRerender(false);
                 pullProblems(results,setResults);
@@ -153,9 +153,9 @@ function Problems(props) {
 
 function Scoreboard(props) {
         
-        const [results, setResults] = useState([{_key:"test",points:0}]);
+        const [results, setResults] = useState([]);
 
-        useEffect(() => {
+        useLayoutEffect(() => {
                 pullAllTeams(results,setResults);
         }, [results, props.rerender])
 
