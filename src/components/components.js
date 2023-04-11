@@ -139,7 +139,7 @@ function Problems(props) {
                                                 <h2>{x.points}</h2>
                                                 <div className="problemcontent">
                                                         <h1>{x._key}</h1>
-                                                        {x._key !== "Snoop Dogg" ? <p>{x.description}</p>:<a href={"https://www.discardsoftware.com/challenges/challenge4"} className="btn" target='_blank' rel="noreferrer">{x.description}</a>}
+                                                        {x._key !== "Snoop Dogg" ? <p>{x.description}</p>:<a href={"https://www.discardsoftware.com/challenge/challenge4"} className="btn" target='_blank' rel="noreferrer">{x.description}</a>}
                                                         {x.path !== "none"?<a href={x.path} download className="btn" target='_blank' rel="noreferrer">Problem Files</a>:<div/>}
                                                         <form onSubmit={e=>{
                                                                 e.preventDefault();

@@ -8,7 +8,7 @@ const path = require("path");
 
 
 router.get('/challenge4', async (req,res) => {
-        res.sendFile(path.resolve(__dirname, '../../public/problem_files/challenge4.handlebars', 'index.html'));
+        res.sendFile(path.resolve(__dirname, '../../public/problem_files/', 'challenge4.html'));
 });
 
 module.exports = router;
