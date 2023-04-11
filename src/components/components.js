@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {useEffect, useState, useLayoutEffect} from 'react';
+import {useState, useLayoutEffect} from 'react';
 /**
  * @return {JSON[]}
  * {_key, players, points, solved}
@@ -126,7 +126,7 @@ function Problems(props) {
                 <>
                         {results.map(x=>{ return (
                                 <div>
-                                
+                                {shouldUpdateCg(x.cg)}
                                         <div className={team.solved.filter(y=>y===x._key).length > 0? "solved":"problem"}>
                                                 <h2>{x.points}</h2>
                                                 <div className="problemcontent">
