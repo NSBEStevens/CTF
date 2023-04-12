@@ -8,9 +8,9 @@ import {useState, useLayoutEffect, useEffect} from 'react';
  * points: int
  * solved: string[]
  */
-// const url = "https://www.discardsoftware.com";
+const url = "https://www.discardsoftware.com";
 
-const url = "http://localhost:5000";
+// const url = "http://localhost:5000";
 
 async function pullAllTeams(results, setResults) {
         try {
