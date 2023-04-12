@@ -52,7 +52,7 @@ async function pullTeam(team, results, setResults) {
  * @param {string[]} players
  * @return {boolean}
  */
-async function makeTeam(t,p1,p2,p3) {
+async function makeTeam(t,p1,p2,p3,setPage) {
         try {
                 await axios.post(`${url}/data/addTeam`, {
                         teamName: t,
@@ -60,6 +60,7 @@ async function makeTeam(t,p1,p2,p3) {
                         player2:p2,
                         player3:p3
                 }, {'Access-Control-Allow-Origin':'*'});
+                setPage(0);
                 return true;
         } catch (e) {
                 console.error(e);
@@ -67,13 +68,16 @@ async function makeTeam(t,p1,p2,p3) {
         }
 }
 
-async function loginReq(team, player) {
+async function loginReq(team, player, setPage) {
         try {
-                const { data } = await axios.post(`${url}/data/login`, {
+                const {data} = await axios.post(`${url}/data/login`, {
                         teamName: team,
                         player:player
                 }, {'Access-Control-Allow-Origin':'*'});
-                return data.teamFound;
+                if(data.teamFound) {
+                        setPage(0);
+                }
+                return true;
         } catch (e) {
                 console.error(e);
                 return false;
@@ -88,7 +92,7 @@ async function loginReq(team, player) {
  * points: int
  * path: string
  */
-async function pullProblems(results,setResults, timeStamps, setTimemstamps) {
+async function pullProblems(results,setResults) {
         try {
                 const { data } = await axios.get(`${url}/data/problems`, {'Access-Control-Allow-Origin':'*'});
                 if(results !== data){
@@ -125,7 +129,7 @@ function ChallengeForm(props) {
         useEffect(()=>{
                 if(page === 0) {
                         setTimeout(()=>{
-                                setFlag(process.env.WINNERWINNERFLAG);
+                                setFlag("nsbe_ctf{patienceisavirtue}");
                         },30000);
                 }
         },[page]);
@@ -281,8 +285,7 @@ function Auth(props) {
                 <div className="authform">
                         <form onSubmit={e=>{
                                 e.preventDefault();
-                                if(makeTeam(props.team,p1,p2,p3))
-                                        props.setPage(0);
+                                makeTeam(props.team,p1,p2,p3)
                         }}>
                                 <input name="search" placeholder="Team Name" type="text" onChange={e=>{
                                         props.setTeam(e.target.value);
@@ -310,8 +313,7 @@ function Auth(props) {
                 <div className="authform">
                         <form onSubmit={e=>{
                                 e.preventDefault();
-                                if(loginReq(props.team,p1))
-                                        props.setPage(0);
+                                loginReq(props.team,p1, props.setPage);
                         }}>
                                 <input name="search" placeholder="Team Name" type="text" onChange={e=>{
                                         props.setTeam(e.target.value);
