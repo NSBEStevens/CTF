@@ -78,7 +78,7 @@ router.post('/login', async (req, res) => {
                 console.error(err);
                 return;
             }
-            if(data.rows.length !== 0) {
+            if(data.rows.length !== 1) {
                 return res.status(200).json({teamFound:false});
             }
             return res.status(200).json({teamFound:true});
@@ -92,7 +92,7 @@ router.post('/addTeam', async (req, res) => {
     let players=[req.body.player1,req.body.player2,req.body.player3];
     try {
         if(req.body.teamName === undefined) throw "Team Name not defined";
-        let selectQuery = `SELECT * FROM teams where _key = '${req.body.teamName}'`;
+        let selectQuery = `SELECT * FROM teams where _key = '${req.body.teamName}' or player1 = 'req.body.player1' or player2 = 'req.body.player2' or player3 = 'req.body.player3' `;
         
         pool.query(selectQuery, (err, data) => {
             if (err) {
