@@ -71,7 +71,7 @@ router.get('/teams/:key', async (req, res) => {
 
 router.post('/login', async (req, res) => {
     try {
-        let selectQuery = `SELECT * FROM teams where _key = '${req.body.teamName}'and ('${req.body.email}' = any(players))`;
+        let selectQuery = `SELECT * FROM teams where _key = '${req.body.teamName}'and ('${req.body.email}' = player1 or '${req.body.email}' = player2 or '${req.body.email}' = player3)`;
         
         pool.query(selectQuery, (err, data) => {
             if (err) {
@@ -102,9 +102,9 @@ router.post('/addTeam', async (req, res) => {
             if(data.rows.length > 0)
                 return res.status(400).json({teamFound:true});
         });
-        let createQuery = `insert into teams values('`+req.body.teamName+`', '{${players.reduce((x,y)=>{
+        let createQuery = `insert into teams values('`+req.body.teamName+`', ${players.map(x=>`'${x}'`).reduce((x,y)=>{
             return y !== ""? `${x},${y}`: x;
-        })}}', 0, '{}')`;
+        })}, 0, '{}')`;
         
         pool.query(createQuery, (err, data) => {
             if (err) {

@@ -54,13 +54,15 @@ async function makeTeam(t,p1,p2,p3,setPage) {
 
 async function loginReq(team, player, setPage) {
         try {
-                const {data} = await axios.post(`${url}/data/login`, {
+                await axios.post(`${url}/data/login`, {
                         teamName: team,
                         player:player
-                }, {'Access-Control-Allow-Origin':'*'});
-                if(data.teamFound) {
-                        setPage(0);
-                }
+                }, {'Access-Control-Allow-Origin':'*'}).then(({data}) => {
+                        if(data.teamFound) {
+                                setPage(0);
+                        }
+                });
+                
                 return true;
         } catch (e) {
                 console.error(e);

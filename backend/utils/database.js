@@ -23,7 +23,7 @@ pool.connect((error) => {
     }
     console.log('Database Connection established successfully');
     // Creating table "problems"
-    const create = "CREATE TABLE problems(_key VARCHAR(32) NOT NULL PRIMARY KEY, ctfflag VARCHAR(32) NOT NULL, description VARCHAR(512) NOT NULL, points INTEGER  NOT NULL,path varchar(128) NOT NULL, cg varchar(32) NOT NULL );CREATE TABLE teams(_key VARCHAR(64) NOT NULL PRIMARY KEY, players text[] NOT NULL, points INTEGER  NOT NULL, solved text[]);"
+    const create = "CREATE TABLE problems(_key VARCHAR(32) NOT NULL PRIMARY KEY, ctfflag VARCHAR(32) NOT NULL, description VARCHAR(512) NOT NULL, points INTEGER  NOT NULL,path varchar(128) NOT NULL, cg varchar(32) NOT NULL );CREATE TABLE teams(_key VARCHAR(64) NOT NULL PRIMARY KEY, player1 varchar(256) NOT NULL, player2 varchar(256) NOT NULL, player3 varchar(256) NOT NULL, points INTEGER  NOT NULL, solved text[]);"
     // Creating table "problems"
     pool.query(create, (err, drop) => {
             if (err) console.error(error);
