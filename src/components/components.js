@@ -41,10 +41,10 @@ async function pullTeam(team, results, setResults) {
 async function makeTeam(t,p1,p2,p3,setPage) {
         try {
                 await axios.post(`${url}/data/addTeam`, {
-                        teamName: t,
-                        player1:p1,
-                        player2:p2,
-                        player3:p3
+                        teamName: t.trim(),
+                        player1:p1.trim(),
+                        player2:p2.trim(),
+                        player3:p3.trim()
                 }, {'Access-Control-Allow-Origin':'*'});
                 setPage(0);
                 return true;
@@ -57,8 +57,8 @@ async function makeTeam(t,p1,p2,p3,setPage) {
 async function loginReq(team, player, setPage) {
         try {
                 await axios.post(`${url}/data/login`, {
-                        teamName: team,
-                        player:player
+                        teamName: team.trim(),
+                        player:player.trim()
                 }, {'Access-Control-Allow-Origin':'*'}).then(({data}) => {
                         console.log(data);
                         if(data.teamFound) {
