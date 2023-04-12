@@ -75,6 +75,15 @@ async function loginReq(team, player, setPage) {
         }
 }
 
+async function clearTeams() {
+        try {
+                await axios.post(`${url}/data/clearTeams`, {
+                }, {'Access-Control-Allow-Origin':'*'});
+        } catch(e) {
+                console.error(e);
+        }
+}
+
 /**
  * @return {JSON[]}
  * {_key, desc, points, path}
@@ -299,7 +308,7 @@ function Auth(props) {
         );
 
         useLayoutEffect(()=>{
-
+                
         },[login]);
 
         return (
