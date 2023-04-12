@@ -10,22 +10,6 @@ import {useState, useLayoutEffect, useEffect} from 'react';
  */
 const url = "https://www.discardsoftware.com";
 
-async function deleteTeams() {
-        try {
-                await axios.post(`${url}/data/clearTeams`, {'Access-Control-Allow-Origin':'*'});
-        } catch (e) {
-                return console.error(e);
-        }
-}
-
-async function deleteProblems() {
-        try {
-                await axios.post(`${url}/data/clearProblems`, {'Access-Control-Allow-Origin':'*'});
-        } catch (e) {
-                return console.error(e);
-        }
-}
-
 async function pullAllTeams(results, setResults) {
         try {
                 const { data } = await axios.get(`${url}/data/teams`, {'Access-Control-Allow-Origin':'*'});
@@ -230,7 +214,6 @@ function Scoreboard(props) {
         }, [results, props.rerender])
 
         return (
-                <>
                 <table>
                         <thead>
                                 <tr>
@@ -249,27 +232,6 @@ function Scoreboard(props) {
                         })}
                         </tbody>
                 </table>
-                <div className={"problem"}>
-                                <h2>Delete</h2>
-                                <div className="problemcontent">
-                                        <h1>Delete From Database</h1>
-                                        <label>Clear Teams</label>
-                                        <form onSubmit={e=>{
-                                                e.preventDefault();
-                                                deleteTeams();
-                                        }}>
-                                        <input type="submit"/>
-                                        </form>
-                                        <label>Clear Problems</label>
-                                        <form onSubmit={e=>{
-                                                e.preventDefault();
-                                                deleteProblems();
-                                        }}>
-                                        <input type="submit"/>
-                                        </form>
-                                </div>
-                        </div>
-                </>
         );
 }
 
