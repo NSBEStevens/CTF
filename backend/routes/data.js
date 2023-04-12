@@ -78,7 +78,7 @@ router.post('/login', async (req, res) => {
                 console.error(err);
                 return;
             }
-            if(data.rows.length === 0) {
+            if(data.rows.length !== 0) {
                 return res.status(200).json({teamFound:false});
             }
             return res.status(200).json({teamFound:true});
