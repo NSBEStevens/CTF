@@ -84,6 +84,14 @@ async function clearTeams() {
                 console.error(e);
         }
 }
+async function clearProblems() {
+        try {
+                await axios.post(`${url}/data/clearProblems`, {
+                }, {'Access-Control-Allow-Origin':'*'});
+        } catch(e) {
+                console.error(e);
+        }
+}
 
 /**
  * @return {JSON[]}
@@ -309,7 +317,7 @@ function Auth(props) {
         );
 
         useLayoutEffect(()=>{
-
+                
         },[login]);
 
         return (
