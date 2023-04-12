@@ -103,7 +103,7 @@ input[type=submit].auth:active {
 input[type=text].auth {
   position: relative;
   margin: auto;
-  width: 80%;
+  width: 80vw;
 }
 
 .nav {
@@ -283,4 +283,13 @@ button.problemBtn:hover, button.problemBtn {
   text-decoration: underline;
   background: none!important;
   border: none;
+}
+
+table {
+  border: black solid 2px;
+}
+th, td {
+  font-size: 2em;
+  border: black solid 2px;
+  margin: auto;
 }

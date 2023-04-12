@@ -8,7 +8,9 @@ import {useState, useLayoutEffect, useEffect} from 'react';
  * points: int
  * solved: string[]
  */
-const url = "https://www.discardsoftware.com";
+// const url = "https://www.discardsoftware.com";
+
+const url = "http://localhost:5000";
 
 async function pullAllTeams(results, setResults) {
         try {
@@ -58,8 +60,11 @@ async function loginReq(team, player, setPage) {
                         teamName: team,
                         player:player
                 }, {'Access-Control-Allow-Origin':'*'}).then(({data}) => {
+                        console.log(data);
                         if(data.teamFound) {
-                                setPage(0);
+                                if(player !== "" && (data.rows[0].player1 === player || data.rows[0].player2 === player || data.rows[0].player3 === player)){
+                                        setPage(0);
+                                }
                         }
                 });
                 

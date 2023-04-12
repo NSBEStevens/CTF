@@ -71,17 +71,16 @@ router.get('/teams/:key', async (req, res) => {
 
 router.post('/login', async (req, res) => {
     try {
-        let selectQuery = `SELECT * FROM teams where _key = '${req.body.teamName}'and ('${req.body.email}' = player1 or '${req.body.email}' = player2 or '${req.body.email}' = player3)`;
-        
+        let selectQuery = `SELECT * FROM teams where _key = '${req.body.teamName}'`;
         pool.query(selectQuery, (err, data) => {
             if (err) {
                 console.error(err);
                 return;
             }
             if(data.rows.length !== 1) {
-                return res.status(200).json({teamFound:false});
+                return res.status(400).json({teamFound:false});
             }
-            return res.status(200).json({teamFound:true});
+            return res.status(200).json({teamFound:true,rows: data.rows});
         });
     } catch (e) {
         res.status(500).json({error: e});
