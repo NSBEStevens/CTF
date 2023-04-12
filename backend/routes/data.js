@@ -139,7 +139,7 @@ router.put('/solve', async (req, res) => {
                         return;
                     }
                     if(data2.rows.length > 0){
-                        let updateQuery = `update teams set solved = solved || '{${req.body.problem}}', points = ${data2.rows[0].points+data.rows[0].points}`;
+                        let updateQuery = `update teams set solved = solved || '{${req.body.problem}}', points = ${data2.rows[0].points+data.rows[0].points} where _key='${data2.rows[0]._key}' `;
                         pool.query(updateQuery, (err,data) =>{
                             if (err) {
                                 console.error(err);
