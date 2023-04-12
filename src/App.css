@@ -293,3 +293,8 @@ th, td {
   border: black solid 2px;
   margin: auto;
 }
+img {
+  margin: 0vh 0;
+  top:0;
+  width: 100%;
+}

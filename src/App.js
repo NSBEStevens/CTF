@@ -7,6 +7,7 @@ function Nav(props) {
   return (
     <div>
       <div className="nav">
+        <img src={"nsbebanner.jpg"} alt="NSBE Banner"/>
         <ul>
           {
             props.nav.map(x=>{

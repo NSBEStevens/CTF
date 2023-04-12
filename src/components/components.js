@@ -264,7 +264,7 @@ function Auth(props) {
                 <div className="authform">
                         <form onSubmit={e=>{
                                 e.preventDefault();
-                                makeTeam(props.team,p1,p2,p3,props.setPage)
+                                makeTeam(props.team,p1,p2,p3,props.setPage);
                         }}>
                                 <input name="search" placeholder="Team Name" type="text" onChange={e=>{
                                         props.setTeam(e.target.value);
@@ -309,7 +309,7 @@ function Auth(props) {
         );
 
         useLayoutEffect(()=>{
-                
+
         },[login]);
 
         return (
