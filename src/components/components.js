@@ -40,6 +40,7 @@ async function pullTeam(team, results, setResults) {
  */
 async function makeTeam(t,p1,p2,p3,setPage) {
         try {
+                if(p1 === "") throw "Invalid player 1"
                 await axios.post(`${url}/data/addTeam`, {
                         teamName: t.trim(),
                         player1:p1.trim(),
