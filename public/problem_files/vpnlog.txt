@@ -1,0 +1,20 @@
+Help! The National Society of Black Engineers website has been compromised! We believe that one of 
+the users below is responsible. Here is a log of all the users that were logged in the
+day of the attack. Help us find the compromised user!
+
+Timestamp                | User                    | Source IP       | Destination IP | Duration
+-------------------------------------------------------------------------------------------
+2023-04-11 08:34:30      | emily@company.com       | 192.168.1.101   | 192.168.1.200  | 01:20:00
+2023-04-11 09:20:15      | awa@company.com         | 192.168.1.102   | 123.45.67.89   | 00:45:30
+2023-04-11 10:15:00      | carina@company.com      | 192.168.1.103   | 185.76.12.34   | 01:25:45
+2023-04-11 10:17:30      | romeo@company.com       | 192.168.1.104   | 217.89.45.67   | 00:25:15
+2023-04-11 11:20:15      | awa@company.com         | 192.168.1.102   | 123.45.67.89   | 00:45:30
+2023-04-11 11:27:45      | carina@company.com      | 192.168.1.103   | 78.90.12.34    | 00:10:15
+2023-04-11 12:22:45      | allan@company.com       | 192.168.1.104   | 10.0.0.2       | 00:15:10
+2023-04-11 13:25:30      | emily@company.com       | 192.168.1.106   | 192.168.1.200  | 04:20:00
+2023-04-11 13:27:45      | carina@company.com      | 192.168.1.103   | 78.90.12.34    | 00:10:15
+2023-04-11 15:30:00      | david.smith@company.com | 1192.168.1.107  | 185.76.12.34   | 00:40:30
+2023-04-11 15:32:30      | amy.johnson@company.com | 192.168.1.108   | 217.89.45.67   | 00:35:20
+2023-04-11 16:35:00      | carina@company.com      | 192.168.1.103   | 123.45.67.89   | 00:25:45
+2023-04-11 17:37:15      | romeo@company.com       | 192.168.1.104   | 10.0.0.2       | 00:30:10
+2023-04-11 22:47:30      | amy.johnson@company.com | 192.168.1.108   | 217.89.45.67   | 06:35:20

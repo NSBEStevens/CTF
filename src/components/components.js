@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {useState, useLayoutEffect} from 'react';
+import {useState, useLayoutEffect, useEffect} from 'react';
 /**
  * @return {JSON[]}
  * {_key, players, points, solved}
@@ -52,7 +52,7 @@ async function pullTeam(team, results, setResults) {
  * @param {string[]} players
  * @return {boolean}
  */
-async function makeTeam(t,p1,p2,p3) {
+async function makeTeam(t,p1,p2,p3,setPage) {
         try {
                 await axios.post(`${url}/data/addTeam`, {
                         teamName: t,
@@ -60,6 +60,7 @@ async function makeTeam(t,p1,p2,p3) {
                         player2:p2,
                         player3:p3
                 }, {'Access-Control-Allow-Origin':'*'});
+                setPage(0);
                 return true;
         } catch (e) {
                 console.error(e);
@@ -67,13 +68,16 @@ async function makeTeam(t,p1,p2,p3) {
         }
 }
 
-async function loginReq(team, player) {
+async function loginReq(team, player, setPage) {
         try {
-                const { data } = await axios.post(`${url}/data/login`, {
+                const {data} = await axios.post(`${url}/data/login`, {
                         teamName: team,
                         player:player
                 }, {'Access-Control-Allow-Origin':'*'});
-                return data.teamFound;
+                if(data.teamFound) {
+                        setPage(0);
+                }
+                return true;
         } catch (e) {
                 console.error(e);
                 return false;
@@ -91,8 +95,9 @@ async function loginReq(team, player) {
 async function pullProblems(results,setResults) {
         try {
                 const { data } = await axios.get(`${url}/data/problems`, {'Access-Control-Allow-Origin':'*'});
-                if(results !== data)
+                if(results !== data){
                         setResults(data);
+                }
         } catch (e) {
                 return console.error(e);
         }
@@ -117,10 +122,64 @@ async function solveProblem(problem,flag,teamName) {
         }
 }
 
+function ChallengeForm(props) {
+        const [page, setPage] = useState(0);
+        const [flag, setFlag] = useState("");
+
+        useEffect(()=>{
+                if(page === 0) {
+                        setTimeout(()=>{
+                                setFlag("nsbe_ctf{patienceisavirtue}");
+                        },30000);
+                }
+        },[page]);
+
+        return (page === 0?
+                <div>
+                        <button className="problemBtn" onClick={()=>{setPage(1)}}>Click Here!!</button>
+                        <p>{flag}</p>
+                </div>:
+                page === 1?
+                <div>
+                        <p>CONGRATULATIONS! You have just won an Apple iPad!</p>
+                        <p>Fill out the form below to get your iPad delivered today!</p>
+                        <form onSubmit={e=>{
+                                e.preventDefault();
+                                setPage(2);
+                        }}>
+                                <label for="firstName">First Name:</label>
+                                <input type="text" id="firstName" name="firstName"/><br/>
+
+                                <label for="lastName">Last Name:</label>
+                                <input type="text" id="lastName" name="lastName"/><br/>
+                                
+                                <label for="address">Address:</label>
+                                <input type="text" id="address" name="address"/><br/>
+
+                                <label for="creditcard">Credit Card Number:</label>
+                                <input type="text" id="creditCard" name="creditCard"/><br/>
+
+                                <label for="socialSecurityNumber">Social Security Number:</label>
+                                <input type="text" id="socialSecurityNumber" name="socialSecurityNumber"/><br/>
+
+                                <label for="driverLicenseNumber">Driver License's Number:</label>
+                                <input type="text" id="driverLicenseNumber" name="driverLicenseNumber"/><br/>
+                                
+                                <input type="submit"/>
+                        </form>
+                </div>:
+                <div>
+                        <p>Error: There was a server side error in processing the form</p>
+                        <p>Please try again</p>      
+                        <button className="nava" onClick={()=>{setPage(1)}}>Go Back</button>
+                </div>
+        );
+}
+
 function Problems(props) {
+        const topics = ["Logic", "General Knowledge", "Forensics", "Cryptography"];
         const [results,setResults] = useState([]);
         const [team, setTeam] = useState({_key:"", players:[], points:"", solved:[]});
-        const [cg, setCategory] = useState("");
         const [flag, setFlag] = useState("");
         useLayoutEffect(()=>{
                 if(props.rerender)
@@ -129,27 +188,20 @@ function Problems(props) {
                 pullTeam(props.team,team,setTeam);
         },[results,team,props.team,props.rerender, props]);
 
-        function shouldUpdateCg(cat) {
-                if(cat === cg)
-                        return <p/>;
-                else {
-                        setCategory(cat);
-                        setTimeout(()=>{}, 50);
-                        return <h1>{cat}</h1>;
-                }
-        }
-
         return (
-                <>
-                        {results.map(x=>{ return (
-                                <div>
-                                {shouldUpdateCg(x.cg)}
+                <div className={"scroll"}>
+                        {topics.map(topic =>
+                        <>
+                                <h1>{topic}</h1>
+                                {results.map(x => { 
+                                        return (x.cg === topic?
                                         <div className={team.solved.filter(y=>y===x._key).length > 0? "solved":"problem"}>
                                                 <h2>{x.points}</h2>
                                                 <div className="problemcontent">
                                                         <h1>{x._key}</h1>
-                                                        <p>{x.description}</p>
-                                                        {x.path !== "none"?<a href={x.path} download className="btn" target='_blank' rel="noreferrer" >Problem Files</a>:<div/>}
+                                                        {x._key !== "Snoop Dogg" ? <p>{x.description}</p>:<a href={"https://www.discardsoftware.com/challenge/challenge4"} className="btn" target='_blank' rel="noreferrer">{x.description}</a>}
+                                                        {x.path !== "none"?<a href={x.path} download className="btn" target='_blank' rel="noreferrer">Problem Files</a>:<div/>}
+                                                        {x._key === "Winner Winner"?<button onClick={()=>{props.setPage(2)}}>Problem</button>:<></>}
                                                         <form onSubmit={e=>{
                                                                 e.preventDefault();
                                                                 solveProblem(x._key,flag,team._key);
@@ -161,32 +213,11 @@ function Problems(props) {
                                                                 <input type="submit"/>
                                                         </form>
                                                 </div>
-                                        </div>
-                                </div>
-                        );})}
-                        <div className={"problem"}>
-                                <h2>Delete</h2>
-                                <div className="problemcontent">
-                                        <h1>Delete From Database</h1>
-                                        <label>Clear Teams</label>
-                                        <form onSubmit={e=>{
-                                                e.preventDefault();
-                                                deleteTeams();
-                                                props.setRerender(true);
-                                        }}>
-                                        <input type="submit"/>
-                                        </form>
-                                        <label>Clear Problems</label>
-                                        <form onSubmit={e=>{
-                                                e.preventDefault();
-                                                deleteProblems();
-                                                props.setRerender(true);
-                                        }}>
-                                        <input type="submit"/>
-                                        </form>
-                                </div>
-                        </div>
-                </>
+                                        </div>:<div/>
+                                );})}
+                        </>
+                        )}
+                </div>
         );
 }
 
@@ -199,6 +230,7 @@ function Scoreboard(props) {
         }, [results, props.rerender])
 
         return (
+                <>
                 <table>
                         <thead>
                                 <tr>
@@ -217,6 +249,27 @@ function Scoreboard(props) {
                         })}
                         </tbody>
                 </table>
+                <div className={"problem"}>
+                                <h2>Delete</h2>
+                                <div className="problemcontent">
+                                        <h1>Delete From Database</h1>
+                                        <label>Clear Teams</label>
+                                        <form onSubmit={e=>{
+                                                e.preventDefault();
+                                                deleteTeams();
+                                        }}>
+                                        <input type="submit"/>
+                                        </form>
+                                        <label>Clear Problems</label>
+                                        <form onSubmit={e=>{
+                                                e.preventDefault();
+                                                deleteProblems();
+                                        }}>
+                                        <input type="submit"/>
+                                        </form>
+                                </div>
+                        </div>
+                </>
         );
 }
 
@@ -232,8 +285,7 @@ function Auth(props) {
                 <div className="authform">
                         <form onSubmit={e=>{
                                 e.preventDefault();
-                                if(makeTeam(props.team,p1,p2,p3))
-                                        props.setPage(0);
+                                makeTeam(props.team,p1,p2,p3)
                         }}>
                                 <input name="search" placeholder="Team Name" type="text" onChange={e=>{
                                         props.setTeam(e.target.value);
@@ -245,13 +297,15 @@ function Auth(props) {
                                 })}
                                 <input type="submit"/>
                         </form>
-                        <button onClick={()=>{
-                                increment(numPlayers > 2? 3: numPlayers + 1);
-                        }}>Add Player</button>
-                        <button onClick={()=>{
-                                increment(numPlayers < 2? 1: numPlayers - 1);
-                        }}>Remove Player</button>
-                        <button onClick={()=>{setLogin(true)}}>Already a player? Log in here</button>
+                        <ul>
+                                <li><button className="auth" onClick={()=>{
+                                        increment(numPlayers > 2? 3: numPlayers + 1);
+                                }}>Add Player</button></li>
+                                <li><button className="auth" onClick={()=>{
+                                        increment(numPlayers < 2? 1: numPlayers - 1);
+                                }}>Remove Player</button></li>
+                                <li><button className="auth" onClick={()=>{setLogin(true)}}>Already a player? Log in here</button></li>
+                        </ul>
                 </div>
         );
 
@@ -259,8 +313,7 @@ function Auth(props) {
                 <div className="authform">
                         <form onSubmit={e=>{
                                 e.preventDefault();
-                                if(loginReq(props.team,p1))
-                                        props.setPage(0);
+                                loginReq(props.team,p1, props.setPage);
                         }}>
                                 <input name="search" placeholder="Team Name" type="text" onChange={e=>{
                                         props.setTeam(e.target.value);
@@ -270,7 +323,9 @@ function Auth(props) {
                                 }}/>
                                 <input type="submit"/>
                         </form>
-                        <button onClick={()=>{setLogin(false)}}>Not a player? Sign up here!</button>
+                        <ul>
+                                <li><button className="auth" onClick={()=>{setLogin(false)}}>Not a player? Sign up here!</button></li>
+                        </ul>
                 </div>
         );
 
@@ -285,4 +340,4 @@ function Auth(props) {
         );
 }
 
-export { Auth, Problems, Scoreboard }
+export { Auth, Problems, Scoreboard, ChallengeForm }
