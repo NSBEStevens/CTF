@@ -92,7 +92,7 @@ router.post('/addTeam', async (req, res) => {
     let players=[req.body.player1,req.body.player2,req.body.player3];
     try {
         if(req.body.teamName === undefined) throw "Team Name not defined";
-        let selectQuery = `SELECT * FROM teams where _key = '${req.body.teamName}' or player1 = 'req.body.player1' or player2 = 'req.body.player2' or player3 = 'req.body.player3' `;
+        let selectQuery = `SELECT * FROM teams where _key = '${req.body.teamName}' or player1 = '${req.body.player1}' or player2 = '${req.body.player2}' or player3 = '${req.body.player3}' `;
         
         pool.query(selectQuery, (err, data) => {
             if (err) {
