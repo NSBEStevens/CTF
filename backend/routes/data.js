@@ -71,7 +71,7 @@ router.get('/teams/:key', async (req, res) => {
 
 router.post('/login', async (req, res) => {
     try {
-        let selectQuery = `SELECT * FROM teams where _key = '${req.body.teamName}' and ('${req.body.email}' in(players))`;
+        let selectQuery = `SELECT players FROM (select * from teams where _key = '${req.body.teamName}') where ('${req.body.email}' in(players))`;
         
         pool.query(selectQuery, (err, data) => {
             if (err) {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-import { Auth, Problems, Scoreboard } from './components/components'
+import { Auth, Problems, Scoreboard, ChallengeForm } from './components/components'
 import { Display } from './components/componentPicker';
 
 function Nav(props) {
@@ -28,7 +28,8 @@ function WebPage(props) {
   const [team, setTeam] = useState("");
   const nav = [
     { page: 0, title: "Scoreboard", component: <Scoreboard page={page} rerender={rerender} setRerender={setRerender}/> },
-    { page: 1, title: "Problems", component: <Problems team={team} rerender={rerender} setRerender={setRerender}/> }
+    { page: 1, title: "Problems", component: <Problems setPage={setPage} team={team} rerender={rerender} setRerender={setRerender}/> },
+    { page: 2, title: "", component: <ChallengeForm team={team} rerender={rerender} setRerender={setRerender}/> }
   ];
   useEffect(() => {
 
